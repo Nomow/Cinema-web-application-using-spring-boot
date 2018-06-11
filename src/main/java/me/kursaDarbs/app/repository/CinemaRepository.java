@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 import me.kursaDarbs.app.model.Cinema;
 @Repository
-public interface CinemaRepository extends JpaRepository<Cinema, Long>{
+public interface CinemaRepository extends CrudRepository<Cinema, Integer>{
 }

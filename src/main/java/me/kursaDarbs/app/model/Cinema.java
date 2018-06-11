@@ -2,13 +2,16 @@ package me.kursaDarbs.app.model;
 import javax.persistence.*;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @Entity
 @Table(name = "Cinema")
 public class Cinema {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_;
+    private Integer id_;
     @Column(name="name")
     private String name_;
     @Column(name="latitude")
@@ -19,7 +22,7 @@ public class Cinema {
 
     public Cinema(){}
 
-    public Long getId() {
+    public Integer getId() {
         return id_;
     }
 
@@ -39,8 +42,16 @@ public class Cinema {
 
     @Override
     public String toString() {
-        return String.format(
-                "Customer[id=%d, name='%s']",
-                id_, name_);
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put("id", id_);
+            jsonObj.put("name", name_);
+            jsonObj.put("latitude", latitude_);
+            jsonObj.put("longitude", longitude_);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObj.toString();
     }
+
 }
