@@ -85,6 +85,7 @@ public class Movie {
             jsonObj.put("time", time_);
             jsonObj.put("director", director_);
             jsonObj.put("trailer", trailerUrl_);
+            jsonObj.put("imdb", imdbUrl_);
             jsonObj.put("genres", GetGenres());
 
         } catch (JSONException e) {
