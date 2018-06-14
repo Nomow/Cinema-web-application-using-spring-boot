@@ -18,32 +18,5 @@ public class IndexController {
         return "index";
     }
 
-    @RestController
-    public static class MovieController {
-
-        // post method to get all cinema data
-        @Autowired
-        CinemaRepository repository;
-        @RequestMapping(value = "/movies", method = RequestMethod.POST)
-        public @ResponseBody
-        String GetCinemaData() {
-            JSONObject obj = new JSONObject();
-            int i = 0;
-            for (Cinema cinema : repository.findAll()) {
-                try {
-                    obj.put(Integer.toString(i), cinema.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ++i;
-            }
-            return obj.toString();
-        }
-
-
-
-
-
-    }
 }
 

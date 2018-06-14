@@ -3,7 +3,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +33,7 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "MovieGenres", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "genres_id", referencedColumnName = "id"))
-    private Set<Genres> genres_;
+    private List<Genres> genres_;
 
     public Movie(){}
 
@@ -60,6 +59,14 @@ public class Movie {
         return trailerUrl_;
     }
 
+    public ArrayList<String> GetGenres() {
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i = 0; i < genres_.size(); ++i) {
+            temp.add(genres_.get(i).GetName());
+        }
+        return temp;
+    }
+
 
     @Override
     public String toString() {
@@ -71,6 +78,8 @@ public class Movie {
             jsonObj.put("time", time_);
             jsonObj.put("director", director_);
             jsonObj.put("trailer", trailerUrl_);
+            jsonObj.put("genres", GetGenres());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

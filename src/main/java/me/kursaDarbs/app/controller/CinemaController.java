@@ -24,13 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class CinemaController {
 
     // post method to get all cinema data
-    @Autowired CinemaRepository repository;
+    @Autowired CinemaRepository cinemaRepository;
     @RequestMapping(value = "/cinemas", method = RequestMethod.POST)
     public @ResponseBody
     String GetCinemaData() {
         JSONObject obj = new JSONObject();
         int i = 0;
-        for (Cinema cinema : repository.findAll()) {
+        for (Cinema cinema : cinemaRepository.findAll()) {
             try {
                 obj.put(Integer.toString(i), cinema.toString());
             } catch (JSONException e) {
@@ -45,14 +45,14 @@ public class CinemaController {
     public ModelAndView GetCinemaList() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("cinemas");
-        mav.getModelMap().addAttribute("cinemas", repository.findAll());
+        mav.getModelMap().addAttribute("cinemas", cinemaRepository.findAll());
         return mav;
     }
 
     @RequestMapping(value = "/cinema/{id}", method = RequestMethod.GET)
     public ModelAndView GetCinema(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView();
-        Optional<Cinema> cinemaRepo = repository.findById(id);
+        Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
         if(cinemaRepo.isPresent()) {
             mav.setViewName("cinema");
 
