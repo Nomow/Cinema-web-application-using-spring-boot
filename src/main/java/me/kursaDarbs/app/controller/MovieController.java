@@ -29,7 +29,7 @@ public class MovieController {
 
 
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
-    public ModelAndView GetCinemaList() {
+    public ModelAndView GetMovieList() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("movies");
         mav.getModelMap().addAttribute("movies", repository.findAll());

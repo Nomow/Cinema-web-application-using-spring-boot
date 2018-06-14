@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 14, 2018 at 03:29 PM
+-- Generation Time: Jun 14, 2018 at 05:24 PM
 -- Server version: 5.7.22-0ubuntu0.16.04.1
 -- PHP Version: 7.0.30-0ubuntu0.16.04.1
 
@@ -23,19 +23,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bought seats`
+-- Table structure for table `BoughtSeats`
 --
 
-CREATE TABLE `bought seats` (
+CREATE TABLE `BoughtSeats` (
   `id` int(11) NOT NULL,
-  `session id` int(11) NOT NULL,
-  `payment system id` int(11) NOT NULL,
-  `hall id` int(11) NOT NULL,
+  `session_id` int(11) NOT NULL,
+  `payment_system_id` int(11) NOT NULL,
   `row` int(11) NOT NULL,
-  `seat number` int(11) NOT NULL,
+  `col` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `order number` varchar(255) NOT NULL,
-  `phone number` varchar(50) NOT NULL
+  `order_number` varchar(255) NOT NULL,
+  `phone_number` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -65,18 +64,6 @@ INSERT INTO `Cinema` (`id`, `city_id`, `name`, `address`, `phone_number`, `email
 (3, 3, 'Kino Balle', 'Rožu laukums 5/6', '+3712948484', 'kinoballe@ballekino.lv\r\n', 56.5078547, 21.0127689),
 (4, 5, 'Silver Screen', 'Kaulu iela 5', '+37129575751', 'silverscreen@daugavpiln.lv', 55.8730708, 26.5180319),
 (5, 6, 'Forumcinemas', 'Janvara iela 13', '+3716565651', 'kino@forumcinemas.lv', 56.946342, 24.1168375);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cinema movies`
---
-
-CREATE TABLE `cinema movies` (
-  `id` int(11) NOT NULL,
-  `cinema id` int(11) NOT NULL,
-  `movie id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -146,27 +133,33 @@ INSERT INTO `Genres` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hall`
+-- Table structure for table `Hall`
 --
 
-CREATE TABLE `hall` (
+CREATE TABLE `Hall` (
   `id` int(11) NOT NULL,
-  `cinema id` int(11) NOT NULL,
-  `rows` int(11) NOT NULL
+  `cinema_id` int(11) NOT NULL,
+  `rows` int(11) NOT NULL,
+  `cols` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `hall seats per row`
+-- Dumping data for table `Hall`
 --
 
-CREATE TABLE `hall seats per row` (
-  `id` int(11) NOT NULL,
-  `hall id` int(11) NOT NULL,
-  `row` int(11) NOT NULL,
-  `seats per row` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `Hall` (`id`, `cinema_id`, `rows`, `cols`) VALUES
+(1, 1, 10, 15),
+(2, 1, 20, 15),
+(3, 1, 25, 15),
+(4, 2, 30, 30),
+(5, 2, 15, 15),
+(6, 3, 40, 10),
+(7, 4, 55, 15),
+(8, 4, 33, 20),
+(9, 5, 13, 10),
+(10, 5, 10, 10),
+(11, 5, 16, 8),
+(12, 5, 9, 9);
 
 -- --------------------------------------------------------
 
@@ -198,21 +191,22 @@ CREATE TABLE `Movie` (
   `time` time NOT NULL,
   `year` int(11) NOT NULL,
   `director` varchar(50) NOT NULL,
-  `trailer` varchar(2083) NOT NULL
+  `youtube_trailer_url` varchar(2083) NOT NULL,
+  `imdb_url` varchar(2083) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Movie`
 --
 
-INSERT INTO `Movie` (`id`, `name`, `description`, `time`, `year`, `director`, `trailer`) VALUES
-(1, 'Pulp Fiction', ' The lives of two mob hitmen, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption. ', '02:34:00', 1994, ' Quentin Tarantino ', 'https://www.youtube.com/watch?v=s7EdQ4FqbhY'),
-(2, 'Reservoir Dogs', ' After a simple jewelry heist goes terribly wrong, the surviving criminals begin to suspect that one of them is a police informant. ', '01:34:00', 1992, ' Quentin Tarantino ', 'https://www.youtube.com/watch?v=vayksn4Y93A'),
-(3, 'Memento', ' A man juggles searching for his wife\'s murderer and keeping his short-term memory loss from being an obstacle. ', '01:53:00', 2000, 'Christopher Nolan', 'https://www.youtube.com/watch?v=UFuFFdK7i44'),
-(4, 'The Usual Suspects', ' A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which began when five criminals met at a seemingly random police lineup. ', '01:46:00', 1995, 'Bryan Singer', 'https://www.youtube.com/watch?v=oiXdPolca5w'),
-(5, 'Se7en', ' Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives. ', '02:07:00', 1995, 'David Fincher', 'https://www.youtube.com/watch?v=znmZoVkCjpI'),
-(6, 'Inception', ' A thief, who steals corporate secrets through the use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO. ', '02:28:00', 2010, 'Christopher Nolan', 'https://www.youtube.com/watch?v=YoHD9XEInc0'),
-(7, 'Donnie Darko', ' A troubled teenager is plagued by visions of a man in a large rabbit suit who manipulates him to commit a series of crimes, after he narrowly escapes a bizarre accident. ', '01:53:00', 2001, 'Richard Kelly ', 'https://www.youtube.com/watch?v=ZZyBaFYFySk');
+INSERT INTO `Movie` (`id`, `name`, `description`, `time`, `year`, `director`, `youtube_trailer_url`, `imdb_url`) VALUES
+(1, 'Pulp Fiction', ' The lives of two mob hitmen, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption. ', '02:34:00', 1994, ' Quentin Tarantino ', 'https://www.youtube.com/watch?v=s7EdQ4FqbhY', 'https://www.imdb.com/title/tt0110912/?ref_=fn_al_tt_1'),
+(2, 'Reservoir Dogs', ' After a simple jewelry heist goes terribly wrong, the surviving criminals begin to suspect that one of them is a police informant. ', '01:34:00', 1992, ' Quentin Tarantino ', 'https://www.youtube.com/watch?v=vayksn4Y93A', 'https://www.imdb.com/title/tt0105236/?ref_=fn_al_tt_1'),
+(3, 'Memento', ' A man juggles searching for his wife\'s murderer and keeping his short-term memory loss from being an obstacle. ', '01:53:00', 2000, 'Christopher Nolan', 'https://www.youtube.com/watch?v=UFuFFdK7i44', '0'),
+(4, 'The Usual Suspects', ' A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which began when five criminals met at a seemingly random police lineup. ', '01:46:00', 1995, 'Bryan Singer', 'https://www.youtube.com/watch?v=oiXdPolca5w', 'https://www.imdb.com/title/tt0114814/?ref_=fn_al_tt_1'),
+(5, 'Se7en', ' Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives. ', '02:07:00', 1995, 'David Fincher', 'https://www.youtube.com/watch?v=znmZoVkCjpI', 'https://www.imdb.com/title/tt0114369/?ref_=fn_al_tt_1'),
+(6, 'Inception', ' A thief, who steals corporate secrets through the use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO. ', '02:28:00', 2010, 'Christopher Nolan', 'https://www.youtube.com/watch?v=YoHD9XEInc0', 'https://www.imdb.com/title/tt1375666/?ref_=fn_al_tt_1'),
+(7, 'Donnie Darko', ' A troubled teenager is plagued by visions of a man in a large rabbit suit who manipulates him to commit a series of crimes, after he narrowly escapes a bizarre accident. ', '01:53:00', 2001, 'Richard Kelly ', 'https://www.youtube.com/watch?v=ZZyBaFYFySk', 'https://www.imdb.com/title/tt0246578/?ref_=fn_al_tt_1');
 
 -- --------------------------------------------------------
 
@@ -249,10 +243,10 @@ INSERT INTO `MovieGenres` (`id`, `movie_id`, `genres_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment system`
+-- Table structure for table `PaymentSystem`
 --
 
-CREATE TABLE `payment system` (
+CREATE TABLE `PaymentSystem` (
   `id` int(11) NOT NULL,
   `name` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -260,27 +254,19 @@ CREATE TABLE `payment system` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `price per row`
+-- Table structure for table `Session`
 --
 
-CREATE TABLE `price per row` (
+CREATE TABLE `Session` (
   `id` int(11) NOT NULL,
-  `session id` int(11) NOT NULL,
-  `row` int(11) NOT NULL,
-  `price` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `session`
---
-
-CREATE TABLE `session` (
-  `id` int(11) NOT NULL,
-  `cinema movies id` int(11) NOT NULL,
-  `hall id` int(11) NOT NULL,
-  `time` datetime NOT NULL
+  `cinema_id` int(11) NOT NULL,
+  `movies_id` int(11) NOT NULL,
+  `hall_id` int(11) NOT NULL,
+  `time` datetime NOT NULL,
+  `price_children` double NOT NULL,
+  `price_adults` double NOT NULL,
+  `price_senoirs` double NOT NULL,
+  `price_handicapped` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -288,21 +274,15 @@ CREATE TABLE `session` (
 --
 
 --
--- Indexes for table `bought seats`
+-- Indexes for table `BoughtSeats`
 --
-ALTER TABLE `bought seats`
+ALTER TABLE `BoughtSeats`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `Cinema`
 --
 ALTER TABLE `Cinema`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cinema movies`
---
-ALTER TABLE `cinema movies`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -318,15 +298,9 @@ ALTER TABLE `Genres`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `hall`
+-- Indexes for table `Hall`
 --
-ALTER TABLE `hall`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hall seats per row`
---
-ALTER TABLE `hall seats per row`
+ALTER TABLE `Hall`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -342,15 +316,15 @@ ALTER TABLE `MovieGenres`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `price per row`
+-- Indexes for table `PaymentSystem`
 --
-ALTER TABLE `price per row`
+ALTER TABLE `PaymentSystem`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `session`
+-- Indexes for table `Session`
 --
-ALTER TABLE `session`
+ALTER TABLE `Session`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -358,20 +332,15 @@ ALTER TABLE `session`
 --
 
 --
--- AUTO_INCREMENT for table `bought seats`
+-- AUTO_INCREMENT for table `BoughtSeats`
 --
-ALTER TABLE `bought seats`
+ALTER TABLE `BoughtSeats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `Cinema`
 --
 ALTER TABLE `Cinema`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `cinema movies`
---
-ALTER TABLE `cinema movies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `City`
 --
@@ -383,15 +352,10 @@ ALTER TABLE `City`
 ALTER TABLE `Genres`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
--- AUTO_INCREMENT for table `hall`
+-- AUTO_INCREMENT for table `Hall`
 --
-ALTER TABLE `hall`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `hall seats per row`
---
-ALTER TABLE `hall seats per row`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `Hall`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `Movie`
 --
@@ -403,14 +367,9 @@ ALTER TABLE `Movie`
 ALTER TABLE `MovieGenres`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
--- AUTO_INCREMENT for table `price per row`
+-- AUTO_INCREMENT for table `Session`
 --
-ALTER TABLE `price per row`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `session`
---
-ALTER TABLE `session`
+ALTER TABLE `Session`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -27,8 +27,11 @@ public class Movie {
     @Column(name="director")
     private String director_;
 
-    @Column(name="trailer")
+    @Column(name="youtube_trailer_url")
     private String trailerUrl_;
+
+    @Column(name="imdb_url")
+    private String imdbUrl_;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "MovieGenres", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
@@ -55,8 +58,12 @@ public class Movie {
         return director_;
     }
 
-    public String GetTrailer() {
+    public String GetTrailerUrl() {
         return trailerUrl_;
+    }
+
+    public String GetImdbUrl() {
+        return imdbUrl_;
     }
 
     public ArrayList<String> GetGenres() {

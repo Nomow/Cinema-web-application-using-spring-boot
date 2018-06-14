@@ -2,7 +2,6 @@ package me.kursaDarbs.app.model;
 import javax.persistence.*;
 import java.util.Set;
 
-import me.kursaDarbs.app.model.Cinema;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,9 +17,6 @@ public class Hall {
     @JoinColumn(name = "cinema_id")
     private Cinema cinema_;
 
-    @Column(name="cinema_id")
-    private int cinemaId_;
-
     @Column(name="rows")
     private int rows_;
 
@@ -32,10 +28,6 @@ public class Hall {
 
     public Integer GetId() {
         return id_;
-    }
-
-    public Integer GetCinemaId() {
-        return cinemaId_;
     }
 
     public String GetCinema() {
@@ -56,7 +48,6 @@ public class Hall {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("id", id_);
-            jsonObj.put("cinemaId", cinemaId_);
             jsonObj.put("cinema_name", GetCinema());
             jsonObj.put("rows", rows_);
             jsonObj.put("cols", cols_);
