@@ -5,8 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @Entity
-@Table(name = "City")
-public class City {
+@Table(name = "Genres")
+public class Genres {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,13 +14,11 @@ public class City {
     @Column(name="name")
     private String name_;
 
-
-    public City(){}
+    public Genres(){}
 
     public Integer GetId() {
         return id_;
     }
-
 
     public String GetName() {
         return name_;
