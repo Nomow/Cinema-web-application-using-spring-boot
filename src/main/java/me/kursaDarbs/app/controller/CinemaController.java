@@ -14,10 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import me.kursaDarbs.app.repository.CinemaRepository;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class CinemaController {
+
+    // post method to get all cinema data
     @Autowired CinemaRepository repository;
-    @RequestMapping(value = "/get-cinema-data", method = RequestMethod.POST)
+    @RequestMapping(value = "/cinemas", method = RequestMethod.POST)
     public @ResponseBody
-    String GetAllCinemas() {
+    String GetCinemaData() {
         JSONObject obj = new JSONObject();
         int i = 0;
         for (Cinema cinema : repository.findAll()) {
@@ -41,5 +40,28 @@ public class CinemaController {
         }
         return obj.toString();
     }
+
+    @RequestMapping(value = "/cinemas", method = RequestMethod.GET)
+    public ModelAndView GetCinemaList() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("cinemas");
+        mav.getModelMap().addAttribute("cinemas", repository.findAll());
+        return mav;
+    }
+
+    @RequestMapping(value = "/cinema/{id}", method = RequestMethod.GET)
+    public ModelAndView GetCinema(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        Optional<Cinema> cinemaRepo = repository.findById(id);
+        if(cinemaRepo.isPresent()) {
+            mav.setViewName("cinema");
+
+            mav.getModelMap().addAttribute("cinema", cinemaRepo.get());
+        }
+        return mav;
+    }
+
+
+
 }
 
