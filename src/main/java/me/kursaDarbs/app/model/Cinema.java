@@ -46,8 +46,8 @@ public class Cinema {
         return name_;
     }
 
-    public String GetCity() {
-        return city_.GetName();
+    public City GetCity() {
+        return city_;
     }
 
     public String GetAddress() {
@@ -61,7 +61,6 @@ public class Cinema {
     public String GetEmail() {
         return email_;
     }
-
 
     public double GetLatttidue() {
         return latitude_;
@@ -77,7 +76,7 @@ public class Cinema {
         try {
             jsonObj.put("id", id_);
             jsonObj.put("name", name_);
-            jsonObj.put("city", GetCity());
+            jsonObj.put("city", city_.GetName());
             jsonObj.put("address", address_);
             jsonObj.put("phoneNumber", phoneNumber_);
             jsonObj.put("email", email_);
