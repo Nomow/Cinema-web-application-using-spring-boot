@@ -6,9 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-import me.kursaDarbs.app.model.Cinema;
 
-import me.kursaDarbs.app.repository.MovieRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import me.kursaDarbs.app.repository.CinemaRepository;
+import me.kursaDarbs.app.repository.MovieRepository;
+
 import org.springframework.web.servlet.ModelAndView;
 
 

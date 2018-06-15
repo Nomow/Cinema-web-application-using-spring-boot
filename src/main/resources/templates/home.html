@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
 
 <head th:replace="includes/head :: head"></head>
 
 
-<body>
+
     <!--Main Navigation-->
     <header th:replace="includes/navigation :: navbar"></header>
 
@@ -19,7 +16,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col" th:each="cinema,iterStat : ${cinemas}" th:if="${iterStat.index}<3">
+            <div class="col" th:each="cinema,iterStat : ${cinemas}">
             <!-- Card -->
                 <div class="card" th:id="'cinema'+${iterStat}">
 
@@ -55,10 +52,5 @@
     </div>
     </div>
 
-    <!-- /Start your project here-->
+
     <footer th:replace="includes/footer :: footer"></footer>
-
-
-</body>
-
-</html>
