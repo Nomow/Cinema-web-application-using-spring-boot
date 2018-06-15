@@ -66,12 +66,8 @@ public class Movie {
         return imdbUrl_;
     }
 
-    public ArrayList<String> GetGenres() {
-        ArrayList<String> temp = new ArrayList<>();
-        for (int i = 0; i < genres_.size(); ++i) {
-            temp.add(genres_.get(i).GetName());
-        }
-        return temp;
+    public List<Genres> GetGenres() {
+        return genres_;
     }
 
 
@@ -85,6 +81,7 @@ public class Movie {
             jsonObj.put("time", time_);
             jsonObj.put("director", director_);
             jsonObj.put("trailer", trailerUrl_);
+            jsonObj.put("imdb", imdbUrl_);
             jsonObj.put("genres", GetGenres());
 
         } catch (JSONException e) {

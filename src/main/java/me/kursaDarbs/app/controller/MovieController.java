@@ -1,5 +1,8 @@
 package me.kursaDarbs.app.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +36,11 @@ public class MovieController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("movies");
         mav.getModelMap().addAttribute("movies", repository.findAll());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now)); //2016/11/16 12:08:43
+
+
         return mav;
     }
 }

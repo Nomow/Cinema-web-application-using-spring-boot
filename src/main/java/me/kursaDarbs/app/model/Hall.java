@@ -30,8 +30,8 @@ public class Hall {
         return id_;
     }
 
-    public String GetCinema() {
-        return cinema_.GetName();
+    public Cinema GetCinema() {
+        return cinema_;
     }
 
     public Integer GetRows() {
@@ -48,7 +48,7 @@ public class Hall {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("id", id_);
-            jsonObj.put("cinema_name", GetCinema());
+            jsonObj.put("cinema_name", cinema_.GetName());
             jsonObj.put("rows", rows_);
             jsonObj.put("cols", cols_);
         } catch (JSONException e) {
