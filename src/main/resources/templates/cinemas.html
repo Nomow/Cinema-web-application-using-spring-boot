@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div th:insert="~{includes/navigation :: navbar}"></div>
+
 <p th:text="'Hello, ' + ${cinemas} + '!'" />
-</body>
+
+<div th:insert="~{includes/footer :: footer}"></div>
 </html>
