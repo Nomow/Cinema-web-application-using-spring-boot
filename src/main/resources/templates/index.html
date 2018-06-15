@@ -3,23 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <title>Geolocation and Google Maps API</title>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=true&libraries=geometry"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
-      function geolocationSuccess(position) {
-        console.log(position);
-        console.log(position.coords.latitude);
-        console.log(position.coords.longitude);
-        console.log(typeof position.coords.longitude);
-        getAllLocations();
+
+
+      function ConvertToJsonData(cinemaData) {
+          var temp = JSON.parse(cinemaData);
+          var jsonObj = [];
+
+          for(i = 0; i < Object.keys(temp).length; ++i) {
+              jsonObj[i] = JSON.parse(temp[i]);
+          }
+          return jsonObj;
+      }
+
+      function GetDistance(cinemaData, positionData) {
+          var distance  = [];
+          console.log(cinemaData);
+          console.log(positionData);
+           for(i = 0; i < cinemaData.length; ++i) {
+               var p1 = new google.maps.LatLng(cinemaData[i].latitude, cinemaData[i].longitude);
+               var p2 = new google.maps.LatLng(positionData.coords.latitude, positionData.coords.longitude);
+               distance[i] = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000);
+           }
+
+           console.log(distance);
 
       }
 
+      // success function
+      function geolocationSuccess(position) {
+          $.post("/cinemas", {}, function(data, status){
+              if(status == "success") {
+                var jsonCinemaData = ConvertToJsonData(data);
+                  GetDistance(jsonCinemaData, position);
+              } else {
+                  console.log("error");
+              }
+          });
+      }
+
+      // error method
       function geolocationError(positionError) {
         console.log("failed " + positionError);
       }
 
+
+      // geolocates user
       function geolocateUser() {
         // If the browser supports the Geolocation API
         if (navigator.geolocation) {
@@ -33,12 +65,7 @@
         }
       }
 
-      function getAllLocations() {
-          $.post("/cinemas", {}, function(data, status){
-            alert(data);
-          });
-      }
-      //https://stackoverflow.com/questions/7997627/google-maps-how-to-get-the-distance-between-two-point-in-metre?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
       window.onload = geolocateUser;
     </script>
 
