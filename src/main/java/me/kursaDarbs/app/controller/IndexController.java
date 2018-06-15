@@ -23,6 +23,8 @@ public class IndexController {
         List<Cinema> cinemas = cinemaRepository.findAll();
         mav.setViewName("home");
         mav.getModelMap().addAttribute("cinemas", cinemas);
+        mav.getModelMap().addAttribute("pageTitle", "Cinema booking system");
+
         return mav;
     }
 }
