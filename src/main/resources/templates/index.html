@@ -19,6 +19,11 @@
           return jsonObj;
       }
 
+      function SortDataByDistance(cinemaData, distanceData) {
+          for(i = 0; i < distanceData.length; ++i) {
+
+          }
+      }
       function GetDistance(cinemaData, positionData) {
           var distance  = [];
           console.log(cinemaData);
@@ -28,17 +33,42 @@
                var p2 = new google.maps.LatLng(positionData.coords.latitude, positionData.coords.longitude);
                distance[i] = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000);
            }
+          return distance
+      }
 
-           console.log(distance);
+      function GetClosestCinemas(cinemaData, positionData) {
+          var jsonCinemaData = ConvertToJsonData(cinemaData);
+          var distance = GetDistance(jsonCinemaData, positionData)
 
+          // sorts by distance
+          for(i = 0; i < distance.length - 1; ++i) {
+            for(j = i + 1; j < distance.length; ++j) {
+                if(distance[i] > distance[j]) {
+                    var temp = distance[i];
+                    distance[i] = distance[j];
+                    distance[j] = temp;
+
+                    var tempObj = jsonCinemaData[i];
+                    jsonCinemaData[i] = jsonCinemaData[j];
+                    jsonCinemaData[j] = tempObj;
+                }
+            }
+          }
+          console.log("sorted " + distance);
+          // adds distance to json object
+          for(i = 0; i < distance.length; ++i) {
+              jsonCinemaData[i].distance = distance[i];
+          }
+          return jsonCinemaData;
       }
 
       // success function
       function geolocationSuccess(position) {
           $.post("/cinemas", {}, function(data, status){
               if(status == "success") {
-                var jsonCinemaData = ConvertToJsonData(data);
-                  GetDistance(jsonCinemaData, position);
+                  console.log(status);
+                 var cinemaData =  GetClosestCinemas(data, position);
+                 console.log(cinemaData);
               } else {
                   console.log("error");
               }
