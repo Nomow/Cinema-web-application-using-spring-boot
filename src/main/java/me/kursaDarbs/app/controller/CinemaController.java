@@ -55,7 +55,6 @@ public class CinemaController {
         Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
         if(cinemaRepo.isPresent()) {
             mav.setViewName("cinema");
-
             mav.getModelMap().addAttribute("cinema", cinemaRepo.get());
         }
         return mav;
