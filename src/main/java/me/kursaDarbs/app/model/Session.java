@@ -1,6 +1,7 @@
 package me.kursaDarbs.app.model;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -41,6 +42,12 @@ public class Session {
     @Column(name="price_handicapped")
     private double HandicappedPrice_;
 
+
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "session_")
+    private List<BoughtSeats> boughtSeats_;
+
+
+
     public Session(){}
 
     public Integer GetId() {
@@ -77,8 +84,5 @@ public class Session {
     public double GetHandicappedPrice() {
         return HandicappedPrice_;
     }
-
-
-
 
 }
