@@ -21,13 +21,13 @@
         <div class="row">
             <!-- Card 111111111111111111111111111111-->
 
-            <div class="col" th:each="cinema,iterStat : ${cinemas}" th:if="${iterStat.index}<4">
+            <div class="col" th:each="cinema,iterStat : ${cinemas}" th:if="${iterStat.index}<3">
 
             <!-- Card -->
-                <div class="card">
+                <div class="card" th:id="'cinema'+${iterStat}">
 
                     <!-- Card image -->
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" alt="Card image cap">
+                    <img class="card-img-top" th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
 
                     <!-- Card content -->
                     <div class="card-body">
@@ -39,14 +39,14 @@
                         <!-- Text -->
                         <dl class="row">
                             <dt class="col-sm-6">Distance</dt>
-                            <dd class="col-sm-6">150 m</dd>
+                            <dd class="col-sm-6 cinema-distance">Unknown</dd>
                             <dt class="col-sm-6">City</dt>
-                            <dd class="col-sm-6">Talsi</dd>
+                            <dd class="col-sm-6 cinema-city" th:text="${cinema.GetCity().GetName()}"></dd>
                             <dt class="col-sm-6">Address</dt>
-                            <dd class="col-sm-6">Some street 22</dd>
+                            <dd class="col-sm-6 cinema-address" th:text="${cinema.GetAddress()}"></dd>
                         </dl>
                         <!-- Button -->
-                        <a href="#" class="btn btn-primary">Book tickets</a>
+                        <a class="btn btn-primary" th:href="@{'/cinema/' + ${cinema.GetId()}}">View</a>
 
                     </div>
 
