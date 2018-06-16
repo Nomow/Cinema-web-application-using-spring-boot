@@ -2,6 +2,7 @@ package me.kursaDarbs.app.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import me.kursaDarbs.app.custom.SessionProcessing;
@@ -35,6 +36,30 @@ public class SessionController {
         return mav;
     }
 
+
+//    @RequestMapping(value = "cinema/{cinemaId}/movie/{movieId}", method = RequestMethod.GET)
+//    public ModelAndView GetAllSessionsForMovie(@PathVariable("cinemaId") int cinemaId, @PathVariable("movieId") int movieId) {
+//        ModelAndView mav = new ModelAndView();
+//        Date currentDate = Calendar.getInstance().getTime();
+//        List<Session> sessionRepo = sessionRepository.findByCinemaIdAnAndMovieIdAndTimeAfter(cinemaId, movieId, currentDate);
+//
+//
+//        if(!sessionRepo.isEmpty()) {
+//            mav.setViewName("session");
+//            SessionProcessing sessionProcessing = new SessionProcessing(sessionRepo.get());
+//
+//        }
+//
+//
+//        if (sessionRepo.isPresent()) {
+//            mav.setViewName("session");
+//            // returnx m x n array of bool seats 0 not taken 1 taken and other methods
+//            mav.getModelMap().addAttribute("session", sessionProcessing);
+//            String pageTitle = sessionRepo.get().GetCinema() + " - " + sessionRepo.get().GetMovie().GetName();
+//            mav.getModelMap().addAttribute("pageTitle", pageTitle);
+//        }
+//        return mav;
+//    }
 
 }
 

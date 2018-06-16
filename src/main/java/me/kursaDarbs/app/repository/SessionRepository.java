@@ -18,4 +18,5 @@ import java.util.Optional;
 public interface SessionRepository extends JpaRepository<Session, Integer>{
     public List<Session> findByCinemaIdAndTimeAfter(int id, Date date);
     public Optional<Session> findByIdAndTimeAfter(int id, Date date);
+    public List<Session> findByCinemaIdAnAndMovieIdAndTimeAfter(int cinemaId, int movieId, Date date);
 }
