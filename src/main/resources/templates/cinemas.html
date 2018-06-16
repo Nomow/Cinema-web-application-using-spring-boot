@@ -2,9 +2,53 @@
 
 <!--Main Navigation-->
 <header th:replace="includes/navigation :: navbar"></header>
+<div class="container mt-5 pt-5">
+<!-- Section: Blog v.1 -->
+<section class="my-5" th:each="cinema : ${cinemas}">
+    <!-- Grid row -->
+    <div class="row">
+        <!-- Grid column -->
+        <div class="col-sm-5">
+            <div class=" mb-lg-0 mb-4">
+
+            <img class="img-fluid" th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
+                <a>
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
 
 
-<p th:text="'Hello, ' + ${cinemas} + '!'" />
+
+
+
+
+        </div>
+        <!-- Grid column -->
+        <!-- Grid column -->
+        <div class="col-sm-7">
+
+            <!-- Post title -->
+            <h3 class="font-weight-bold mb-3" ><strong th:text="${cinema.GetName()}"></strong></h3>
+            <dl class="row">
+                <dt class="col-sm-4">City</dt>
+                <dd class="col-sm-8 cinema-city" th:text="${cinema.GetCity().GetName()}"></dd>
+                <dt class="col-sm-4">Address</dt>
+                <dd class="col-sm-8 cinema-address" th:text="${cinema.GetAddress()}"></dd>
+                <dt class="col-sm-4">Phone number</dt>
+                <dd class="col-sm-8 cinema-address" th:text="${cinema.GetPhoneNumber()}"></dd>
+                <dt class="col-sm-4">E-mail</dt>
+                <dd class="col-sm-8 cinema-address" th:text="${cinema.GetEmail()}"></dd>
+            </dl>
+            <!-- Read more button -->
+            <a class="btn btn-primary" th:href="@{'/cinema/' + ${cinema.GetId()}}">View</a>
+        </div>
+        <!-- Grid column -->
+    </div>
+    <!-- Grid row -->
+    <hr class="my-5">
+</section>
+</div>
+<!-- Section: -->
 
 
 <footer th:replace="includes/footer :: footer"></footer>
