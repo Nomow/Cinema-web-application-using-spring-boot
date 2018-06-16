@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 public class IndexController {
     @Autowired CinemaRepository cinemaRepository;
+    // index page
     @RequestMapping("/")
     public ModelAndView Index() {
         ModelAndView mav = new ModelAndView();
