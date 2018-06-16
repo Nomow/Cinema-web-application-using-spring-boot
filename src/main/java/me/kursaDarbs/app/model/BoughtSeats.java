@@ -11,62 +11,62 @@ public class BoughtSeats {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "session_id")
-    private Session session_;
+    private Session session;
 
     @ManyToOne
     @JoinColumn(name = "payment_system_id")
-    private PaymentSystem paymentSystem_;
+    private PaymentSystem paymentSystem;
 
     @Column(name="row")
-    private int row_;
+    private int row;
 
     @Column(name="col")
-    private int col_;
+    private int col;
 
     @Column(name="email")
-    private String email_;
+    private String email;
 
     @Column(name="order_number")
-    private String orderNumber_;
+    private String orderNumber;
 
     @Column(name="phone_number")
-    private String phoneNumber_;
+    private String phoneNumber;
             ;
     public BoughtSeats(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public Session GetSession() {
-        return session_;
+        return session;
     }
 
     public PaymentSystem GetPaymentSystem() {
-        return paymentSystem_;
+        return paymentSystem;
     }
 
     public Integer GetRow() {
-        return row_;
+        return row;
     }
 
     public Integer GetCol() {
-        return col_;
+        return col;
     }
 
     public String GetEmail() {
-        return email_;
+        return email;
     }
 
     public String GetOrderNumber() {
-        return orderNumber_;
+        return orderNumber;
     }
 
     public String GetPhoneNumber() {
-        return phoneNumber_;
+        return phoneNumber;
     }
 }

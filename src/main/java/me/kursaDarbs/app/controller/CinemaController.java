@@ -1,19 +1,18 @@
 package me.kursaDarbs.app.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import me.kursaDarbs.app.custom.CinemaMovieSessions;
 import me.kursaDarbs.app.model.Cinema;
 
+import me.kursaDarbs.app.model.Session;
+import me.kursaDarbs.app.repository.SessionRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import me.kursaDarbs.app.repository.CinemaRepository;
@@ -46,16 +45,38 @@ public class CinemaController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("cinemas");
         mav.getModelMap().addAttribute("cinemas", cinemaRepository.findAll());
+        mav.getModelMap().addAttribute("pageTitle", "cinemas");
         return mav;
     }
 
+    @Autowired SessionRepository sessionRepository;
     @RequestMapping(value = "/cinema/{id}", method = RequestMethod.GET)
     public ModelAndView GetCinema(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView();
         Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
+        Date currentDate = Calendar.getInstance().getTime();
         if(cinemaRepo.isPresent()) {
+            List<Session> sessions = sessionRepository.findByCinemaIdAndTimeAfter(id, currentDate);
+            CinemaMovieSessions moviesBySession = new CinemaMovieSessions(sessions);
             mav.setViewName("cinema");
+            // stores information about 1 cinema
             mav.getModelMap().addAttribute("cinema", cinemaRepo.get());
+            // stores information in arrayList about movies currently airing
+
+            mav.getModelMap().addAttribute("movies", moviesBySession.GetMovies());
+            // stores information of sessions for each movie in ArrayList of ArrayList
+            List<List<Session>> movieSessions = moviesBySession.GetSessions();
+            mav.getModelMap().addAttribute("sessions", movieSessions);
+            mav.getModelMap().addAttribute("pageTitle", cinemaRepo.get().GetName());
+
+
+//            for(int i = 0; i < movieSessions.size(); ++i) {
+//                for(int j = 0; j < movieSessions.get(i).size(); ++j) {
+//                    System.out.println(movieSessions.get(i).get(j).GetTime());
+//                }
+//                System.out.println("=====================");
+//            }
+
         }
         return mav;
     }

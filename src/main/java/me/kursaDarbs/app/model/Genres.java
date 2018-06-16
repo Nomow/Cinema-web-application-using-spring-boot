@@ -10,26 +10,26 @@ public class Genres {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
     @Column(name="name")
-    private String name_;
+    private String name;
 
     public Genres(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public String GetName() {
-        return name_;
+        return name;
     }
 
     @Override
     public String toString() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.put("id", id_);
-            jsonObj.put("name", name_);
+            jsonObj.put("id", id);
+            jsonObj.put("name", name);
         } catch (JSONException e) {
             e.printStackTrace();
         }

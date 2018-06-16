@@ -13,82 +13,63 @@ public class Movie {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
 
     @Column(name="name")
-    private String name_;
+    private String name;
 
     @Column(name="description")
-    private String description_;
+    private String description;
 
     @Column(name="time")
-    private Date time_;
+    private Date time;
 
     @Column(name="director")
-    private String director_;
+    private String director;
 
     @Column(name="youtube_trailer_url")
-    private String trailerUrl_;
+    private String trailerUrl;
 
     @Column(name="imdb_url")
-    private String imdbUrl_;
+    private String imdbUrl;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "MovieGenres", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "genres_id", referencedColumnName = "id"))
-    private List<Genres> genres_;
+    private List<Genres> genres;
 
     public Movie(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public String GetName() {
-        return name_;
+        return name;
     }
 
-    public String GetDescription() { return description_; }
+    public String GetDescription() { return description; }
 
     public Date GetTime() {
-        return time_;
+        return time;
     }
 
     public String GetDirector() {
-        return director_;
+        return director;
     }
 
     public String GetTrailerUrl() {
-        return trailerUrl_;
+        return trailerUrl;
     }
 
     public String GetImdbUrl() {
-        return imdbUrl_;
+        return imdbUrl;
     }
 
     public List<Genres> GetGenres() {
-        return genres_;
+        return genres;
     }
 
-
-    @Override
-    public String toString() {
-        JSONObject jsonObj = new JSONObject();
-        try {
-            jsonObj.put("id", id_);
-            jsonObj.put("name", name_);
-            jsonObj.put("description", description_);
-            jsonObj.put("time", time_);
-            jsonObj.put("director", director_);
-            jsonObj.put("trailer", trailerUrl_);
-            jsonObj.put("imdb", imdbUrl_);
-            jsonObj.put("genres", GetGenres());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObj.toString();
-    }
 
 
 

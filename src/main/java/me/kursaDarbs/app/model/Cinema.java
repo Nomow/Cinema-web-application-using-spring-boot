@@ -1,5 +1,6 @@
 package me.kursaDarbs.app.model;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -11,77 +12,84 @@ public class Cinema {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
 
     @Column(name="name")
-    private String name_;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
-    private City city_;
+    private City city;
+
 
     @Column(name="address")
-    private String address_;
+    private String address;
 
     @Column(name="phone_number")
-    private String phoneNumber_;
+    private String phoneNumber;
 
     @Column(name="email")
-    private String email_;
+    private String email;
 
     @Column(name="latitude")
-    private double latitude_;
+    private double latitude;
 
     @Column(name="longitude")
-    private double longitude_;
+    private double longitude;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "cinema")
+    private List<Session> sessions;
+
 
 
     public Cinema(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public String GetName() {
-        return name_;
+        return name;
     }
 
     public City GetCity() {
-        return city_;
+        return city;
     }
 
     public String GetAddress() {
-        return address_;
+        return address;
     }
 
     public String GetPhoneNumber() {
-        return phoneNumber_;
+        return phoneNumber;
     }
 
     public String GetEmail() {
-        return email_;
+        return email;
     }
 
     public double GetLatttidue() {
-        return latitude_;
+        return latitude;
     }
 
     public double GetLongitude() {
-        return longitude_;
+        return longitude;
     }
+
+    public List<Session> GetSessions() { return sessions;}
 
     @Override
     public String toString() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.put("id", id_);
-            jsonObj.put("name", name_);
-            jsonObj.put("city", city_.GetName());
-            jsonObj.put("address", address_);
-            jsonObj.put("phoneNumber", phoneNumber_);
-            jsonObj.put("email", email_);
-            jsonObj.put("latitude", latitude_);
-            jsonObj.put("longitude", longitude_);
+            jsonObj.put("id", id);
+            jsonObj.put("name", name);
+            jsonObj.put("city", city.GetName());
+            jsonObj.put("address", address);
+            jsonObj.put("phoneNumber", phoneNumber);
+            jsonObj.put("email", email);
+            jsonObj.put("latitude", latitude);
+            jsonObj.put("longitude", longitude);
         } catch (JSONException e) {
             e.printStackTrace();
         }

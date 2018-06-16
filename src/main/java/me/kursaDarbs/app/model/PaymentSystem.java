@@ -10,21 +10,21 @@ public class PaymentSystem {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
     @Column(name="name")
-    private String name_;
+    private String name;
     @Column(name="description")
-    private String description_;
+    private String description;
 
     public PaymentSystem(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
     public String GetName() {
-        return name_;
+        return name;
     }
     public String GetDescription() {
-        return description_;
+        return description;
     }
 }

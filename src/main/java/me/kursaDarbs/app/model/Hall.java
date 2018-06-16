@@ -11,35 +11,35 @@ public class Hall {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    private Cinema cinema_;
+    private Cinema cinema;
 
     @Column(name="rows")
-    private int rows_;
+    private int rows;
 
     @Column(name="cols")
-    private int cols_;
+    private int cols;
 
 
     public Hall(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public Cinema GetCinema() {
-        return cinema_;
+        return cinema;
     }
 
     public Integer GetRows() {
-        return rows_;
+        return rows;
     }
 
     public Integer GetCols() {
-        return cols_;
+        return cols;
     }
 
 
@@ -47,10 +47,10 @@ public class Hall {
     public String toString() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.put("id", id_);
-            jsonObj.put("cinema_name", cinema_.GetName());
-            jsonObj.put("rows", rows_);
-            jsonObj.put("cols", cols_);
+            jsonObj.put("id", id);
+            jsonObj.put("cinema_name", cinema.GetName());
+            jsonObj.put("rows", rows);
+            jsonObj.put("cols", cols);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -13,76 +13,59 @@ public class Session {
     @Column(name="id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    private Cinema cinema_;
+    private Cinema cinema;
 
     @ManyToOne
     @JoinColumn(name = "movies_id")
-    private Movie movie_;
+    private Movie movie;
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
-    private Hall hall_;
+    private Hall hall;
 
     @Column(name="time")
-    private Date time_;
+    private Date time;
 
-    @Column(name="price_children")
-    private double childrenPrice_;
-
-    @Column(name="price_adults")
-    private double adultPrice_;
-
-    @Column(name="price_seniors")
-    private double seniorPrice_;
-
-    @Column(name="price_handicapped")
-    private double HandicappedPrice_;
+    @Column(name="price")
+    private double price;
 
 
-    @OneToMany(fetch=FetchType.LAZY,mappedBy = "session_")
-    private List<BoughtSeats> boughtSeats_;
+
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "session")
+    private List<BoughtSeats> boughtSeats;
 
 
 
     public Session(){}
 
     public Integer GetId() {
-        return id_;
+        return id;
     }
 
     public Cinema GetCinema() {
-        return cinema_;
+        return cinema;
     }
 
     public Movie GetMovie() {
-        return movie_;
+        return movie;
     }
 
     public Hall GetHall() {
-        return hall_;
+        return hall;
     }
 
-
-    public Date GetSessionTime() { return time_; }
-
-    public double GetChildrenPrice() {
-        return childrenPrice_;
+    public List<BoughtSeats> GetBoughtSeats() {
+        return boughtSeats;
     }
 
-    public double GetAdultPrice() {
-        return adultPrice_;
-    }
+    public Date GetTime() { return time; }
 
-    public double GetSeniorPrice() {
-        return seniorPrice_;
-    }
-
-    public double GetHandicappedPrice() {
-        return HandicappedPrice_;
+    public double GetPrice() {
+        return price;
     }
 
 }
