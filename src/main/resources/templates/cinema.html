@@ -3,12 +3,78 @@
 <!--Main Navigation-->
 <header th:replace="includes/navigation :: navbar"></header>
 
-<div class="container mt-5 pt-5">
-    <p th:text="'Hello, ' + ${cinema} + '!'" />
+<div class="container-fluid mt-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <img th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${cinema.GetName()}"></h1>
+                <p>Some description here?</p>
+                <dl class="row">
+                    <dt class="col-sm-2">City:</dt>
+                    <dd class="col-sm-10 cinema-city" th:text="${cinema.GetCity().GetName()}"></dd>
+                    <dt class="col-sm-2">Address:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetAddress()}"></dd>
+                    <dt class="col-sm-2">Work hours:</dt>
+                    <dd class="col-sm-10">12:00 - 00:00</dd>
+                    <dt class="col-sm-12 mt-5 mb-2">Contacts</dt>
+                    <dt class="col-sm-2">E-mail:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetEmail()}"></dd>
+                    <dt class="col-sm-2">Phone:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetPhoneNumber()}"></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-5">
+        <div class="col text-center">
+            <h1>Movies playing in this cinema</h1>
+        </div>
+    </div>
 
-    <p th:text="'Hello1, ' + ${movies} + '!'" />
+    <div class="row">
+        <div class="col-md-12 col-lg-3 col-xs-12" th:each="movie,iterStat : ${movies}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="movie-thumbnail">
+                        <img class="img-responsive" th:src="@{'/img/movies/' + ${movie.GetName()}+ '.jpg'}" th:attr="alt=${movie.GetName()}" style="width:100%">
+                    </div>
+                </div>
+                <div class="col-md-6 pl-0">
+                    <div class="info">
+                        <h3 th:text="${movie.GetName()}"></h3>
+                        <p class="text-muted">
+                            <span th:each="genre : ${movie.GetGenres()}" th:text="${genre.GetName()} + ', '">
+                            </span>
+                        </p>
+                        <div class="length my-3">
+                            <i class="fas fa-clock"></i>
+                            <strong>1h 30m</strong>
+                        </div>
+                        <div class="price my-3">
+                            <strong>Price:
+                                <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][0], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$ -
+                                <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][1], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$
+                            </strong>
+                        </div>
+                        <div class="sessions my-3">
+                            <strong>Nearest sessions:</strong>
+                            <ul class="list-unstyled">
+                                <li th:each="Session,iteration : ${sessions[iterStat.index]}" th:unless="${iteration.index > 3}">
+                                    <a th:href="@{'/session/' + ${Session.GetId()}}" th:text="${Session.GetTime()}"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--/Movie info-->
+                </div>
+            </div>
+            <a class="btn btn-lg btn-outline-primary btn-block mt-1 mb-3 waves-effect" th:href="@{'/cinema/' + ${cinema.GetId()}} + '/movie/' + ${movie.GetId()}">View all sessions</a>
 
-<p th:text="'Hello1, ' + ${sessions} + '!'" />
-
+        </div>
+    </div>
 </div>
 <footer th:replace="includes/footer :: footer"></footer>

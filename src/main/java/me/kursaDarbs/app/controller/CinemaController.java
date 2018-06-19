@@ -67,6 +67,7 @@ public class CinemaController {
             // stores information of sessions for each movie in ArrayList of ArrayList
             List<List<Session>> movieSessions = moviesBySession.GetSessions();
             mav.getModelMap().addAttribute("sessions", movieSessions);
+            mav.getModelMap().addAttribute("sessionPriceRanges", moviesBySession.getPriceRange());
             mav.getModelMap().addAttribute("pageTitle", cinemaRepo.get().GetName());
 
 
