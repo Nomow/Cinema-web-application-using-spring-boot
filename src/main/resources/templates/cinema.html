@@ -9,7 +9,7 @@
             <div class="col-md-4 col-xs-12">
                 <img th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 text-center">
                 <h1 th:text="${cinema.GetName()}"></h1>
                 <p>Some description here?</p>
                 <dl class="row">
@@ -19,7 +19,7 @@
                     <dd class="col-sm-10" th:text="${cinema.GetAddress()}"></dd>
                     <dt class="col-sm-2">Work hours:</dt>
                     <dd class="col-sm-10">12:00 - 00:00</dd>
-                    <dt class="col-sm-12">Contacts:</dt>
+                    <dt class="col-sm-12">Contacts</dt>
                     <dt class="col-sm-2">E-mail:</dt>
                     <dd class="col-sm-10" th:text="${cinema.GetEmail()}"></dd>
                     <dt class="col-sm-2">Phone:</dt>
@@ -36,33 +36,42 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 col-xs-12" th:each="movie,iterStat : ${movies}">
+        <div class="col-md-12 col-lg-3 col-xs-12" th:each="movie,iterStat : ${movies}">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="movie-thumbnail">
-                        <img th:src="@{'/img/movies/' + ${movie.GetName()}+ '.jpg'}" th:attr="alt=${movie.GetName()}">
+                        <img class="img-responsive" th:src="@{'/img/movies/' + ${movie.GetName()}+ '.jpg'}" th:attr="alt=${movie.GetName()}" style="width:100%">
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="info">
                         <h3 th:text="${movie.GetName()}"></h3>
-                        <div class="length">
-                            <i class="fa fa-clock-o"></i> 1h 30m
-                        </div>
-                        <p>Price:
-                            <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][0], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$ -
-                            <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][1], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$</p>
                         <p>
-                            <strong>Nearest sessions:</strong>
+                            <span th:each="genre : ${movie.GetGenres()}" th:text="${genre.GetName()} + ', '">
+                            </span>
                         </p>
-                        <ul>
+                        <div class="length my-3">
+                            <i class="fa fa-clock-o"></i>
+                            <strong>1h 30m</strong>
+                        </div>
+                        <div class="price my-3">
+                            <strong>Price:
+                                <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][0], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$ -
+                                <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][1], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$
+                            </strong>
+                        </div>
+                        <div class="sessions my-3">
+                            <strong>Nearest sessions:</strong>
+                        <ul class="list-unstyled">
                             <li th:each="Session,iteration : ${sessions[iterStat.index]}" th:text="${Session.GetTime()}" th:unless="${iteration.index > 3}"></li>
                         </ul>
+                        </div>
                     </div>
-                    <a class="btn btn-outline-primary waves-effect" th:href="@{'/cinema/' + ${cinema.GetId()}} + '/movie/' + ${movie.GetId()}">View all sessions</a>
                     <!--/Movie info-->
                 </div>
             </div>
+            <a class="btn btn-lg btn-outline-primary btn-block mt-1 mb-3 waves-effect" th:href="@{'/cinema/' + ${cinema.GetId()}} + '/movie/' + ${movie.GetId()}">View all sessions</a>
+
         </div>
     </div>
 </div>
