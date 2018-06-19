@@ -9,9 +9,34 @@ import java.util.List;
 public class CinemaMovieSessions {
     private List<Movie> movies;
     private List<List<Session>> sessions;
+    private List<List<Double>> price;
+
+    public List<List<Double>> getPriceRange() {
+        for(int i = 0; i < sessions.size(); ++i) {
+            double min = sessions.get(i).get(0).GetPrice();
+            double max = sessions.get(i).get(0).GetPrice();
+            for(int j = 1; j < sessions.get(i).size(); ++j) {
+                double priceForSession = sessions.get(i).get(j).GetPrice();
+                if(priceForSession < min) {
+                    min = priceForSession;
+                }
+
+                if(priceForSession > max) {
+                    max = priceForSession;
+                }
+            }
+            ArrayList<Double> minMaxPair = new ArrayList<>();
+            minMaxPair.add(min);
+            minMaxPair.add(max);
+            price.add(minMaxPair);
+        }
+        return price;
+    }
+
     public CinemaMovieSessions(List<Session> sessions) {
         movies = new ArrayList<>();
         this.sessions = new ArrayList<List<Session>>();
+        this.price  = new ArrayList<List<Double>>();
         GetUniqueMovies(sessions);
         GetMovieSessions(sessions);
         SortSessionsByDateAsc();
