@@ -6,7 +6,9 @@
     <!--Main Navigation-->
     <header th:replace="includes/navigation :: navbar"></header>
 
-
+    <script>
+        window.onload = geolocateUser;
+    </script>
     <!-- Start your project here-->
     <div class="container mt-5 pt-5">
         <div class="row mb-5">
@@ -21,14 +23,14 @@
                 <div class="card" th:id="'cinema'+${iterStat}">
 
                     <!-- Card image -->
-                    <img class="card-img-top" th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
+                    <img class="card-img-top cinema-image" th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
 
                     <!-- Card content -->
                     <div class="card-body">
 
                         <!-- Title -->
                         <h4 class="card-title">
-                            <a th:text="${cinema.GetName()}"></a>
+                            <a class="cinema-title" th:text="${cinema.GetName()}"></a>
                         </h4>
                         <!-- Text -->
                         <dl class="row">
@@ -40,7 +42,7 @@
                             <dd class="col-sm-6 cinema-address" th:text="${cinema.GetAddress()}"></dd>
                         </dl>
                         <!-- Button -->
-                        <a class="btn btn-primary" th:href="@{'/cinema/' + ${cinema.GetId()}}">View</a>
+                        <a class="btn btn-primary cinema-btn" th:href="@{'/cinema/' + ${cinema.GetId()}}">View</a>
 
                     </div>
 
