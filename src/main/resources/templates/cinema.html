@@ -3,12 +3,67 @@
 <!--Main Navigation-->
 <header th:replace="includes/navigation :: navbar"></header>
 
-<div class="container mt-5 pt-5">
-    <p th:text="'Hello, ' + ${cinema} + '!'" />
+<div class="container-fluid mt-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <img th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${cinema.GetName()}"></h1>
+                <p>Some description here?</p>
+                <dl class="row">
+                    <dt class="col-sm-2">City:</dt>
+                    <dd class="col-sm-10 cinema-city" th:text="${cinema.GetCity().GetName()}"></dd>
+                    <dt class="col-sm-2">Address:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetAddress()}"></dd>
+                    <dt class="col-sm-2">Work hours:</dt>
+                    <dd class="col-sm-10">12:00 - 00:00</dd>
+                    <dt class="col-sm-12">Contacts:</dt>
+                    <dt class="col-sm-2">E-mail:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetEmail()}"></dd>
+                    <dt class="col-sm-2">Phone:</dt>
+                    <dd class="col-sm-10" th:text="${cinema.GetPhoneNumber()}"></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-5">
+        <div class="col text-center">
+            <h1>Movies playing in this cinema</h1>
+        </div>
+    </div>
 
-    <p th:text="'Hello1, ' + ${movies} + '!'" />
-
-<p th:text="'Hello1, ' + ${sessions} + '!'" />
-
+    <div class="row">
+        <div class="col-md-4 col-xs-12" th:each="movie,iterStat : ${movies}">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="movie-thumbnail">
+                        <img th:src="@{'/img/movies/' + ${movie.GetName()}+ '.jpg'}" th:attr="alt=${movie.GetName()}">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="info">
+                        <h3 th:text="${movie.GetName()}"></h3>
+                        <div class="length">
+                            <i class="fa fa-clock-o"></i> 1h 30m
+                        </div>
+                        <p>Price:
+                            <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][0], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$ -
+                            <span th:text="${#numbers.formatDecimal(sessionPriceRanges[iterStat.index][1], 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$</p>
+                        <p>
+                            <strong>Nearest sessions:</strong>
+                        </p>
+                        <ul>
+                            <li th:each="Session,iteration : ${sessions[iterStat.index]}" th:text="${Session.GetTime()}" th:unless="${iteration.index > 3}"></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-primary waves-effect" th:href="@{'/cinema/' + ${cinema.GetId()}} + '/movie/' + ${movie.GetId()}">View all sessions</a>
+                    <!--/Movie info-->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <footer th:replace="includes/footer :: footer"></footer>
