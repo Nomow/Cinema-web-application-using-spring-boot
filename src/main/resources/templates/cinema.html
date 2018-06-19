@@ -9,7 +9,7 @@
             <div class="col-md-4 col-xs-12">
                 <img th:src="@{'/img/cinema/' + ${cinema.GetName()}+ '.jpg'}" th:attr="alt=${cinema.GetName()}">
             </div>
-            <div class="col-md-8 text-center">
+            <div class="col-md-8">
                 <h1 th:text="${cinema.GetName()}"></h1>
                 <p>Some description here?</p>
                 <dl class="row">
@@ -19,7 +19,7 @@
                     <dd class="col-sm-10" th:text="${cinema.GetAddress()}"></dd>
                     <dt class="col-sm-2">Work hours:</dt>
                     <dd class="col-sm-10">12:00 - 00:00</dd>
-                    <dt class="col-sm-12">Contacts</dt>
+                    <dt class="col-sm-12 mt-5 mb-2">Contacts</dt>
                     <dt class="col-sm-2">E-mail:</dt>
                     <dd class="col-sm-10" th:text="${cinema.GetEmail()}"></dd>
                     <dt class="col-sm-2">Phone:</dt>
@@ -43,15 +43,15 @@
                         <img class="img-responsive" th:src="@{'/img/movies/' + ${movie.GetName()}+ '.jpg'}" th:attr="alt=${movie.GetName()}" style="width:100%">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 pl-0">
                     <div class="info">
                         <h3 th:text="${movie.GetName()}"></h3>
-                        <p>
+                        <p class="text-muted">
                             <span th:each="genre : ${movie.GetGenres()}" th:text="${genre.GetName()} + ', '">
                             </span>
                         </p>
                         <div class="length my-3">
-                            <i class="fa fa-clock-o"></i>
+                            <i class="fas fa-clock"></i>
                             <strong>1h 30m</strong>
                         </div>
                         <div class="price my-3">
@@ -62,9 +62,11 @@
                         </div>
                         <div class="sessions my-3">
                             <strong>Nearest sessions:</strong>
-                        <ul class="list-unstyled">
-                            <li th:each="Session,iteration : ${sessions[iterStat.index]}" th:text="${Session.GetTime()}" th:unless="${iteration.index > 3}"></li>
-                        </ul>
+                            <ul class="list-unstyled">
+                                <li th:each="Session,iteration : ${sessions[iterStat.index]}" th:unless="${iteration.index > 3}">
+                                    <a th:href="@{'/session/' + ${Session.GetId()}}" th:text="${Session.GetTime()}"></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <!--/Movie info-->
