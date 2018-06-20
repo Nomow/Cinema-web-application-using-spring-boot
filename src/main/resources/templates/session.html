@@ -2,9 +2,39 @@
 
 <!--Main Navigation-->
 <header th:replace="includes/navigation :: navbar"></header>
+<link rel="stylesheet" th:href="@{/scss/seatBooking.css}" />
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
 
+                <div class="col-sm-8">
+                    <div class="container px-5">
+                        <ol class="hall">
+                            <li class="rinda" th:each="i : ${#numbers.sequence(sesija.GetHall().GetRows(), 1, -1)}">
+                                <ol class="seats" type="A">
+                                    <li class="seat" th:each="j : ${#numbers.sequence(1, sesija.GetHall().GetCols())}" th:title="${i} + '. rinda ' + ${j} + '. sēdvieta'">
+                                        <input type="checkbox" th:id="${i} + '' + ${j}" />
+                                        <label th:for="${i} + '' + ${j}"></label>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="d-flex justify-content-center info-color mt-5 py-3">
+                        <strong class="white-text">SCREEN</strong>
+                    </div>
+                </div>
 
-<p th:text="'Hello, ' + ${cinemas} + '!'" />
+                <div class="col-sm-4">
+                    <h2>Shopping cart</h2>
+                </div>
 
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
 
 <footer th:replace="includes/footer :: footer"></footer>
