@@ -62,4 +62,18 @@
         </div>
     </div>
 </div>
+</div>
+
+
 <footer th:replace="includes/footer :: footer"></footer>
+
+
+<footer th:replace="includes/footer :: footer"></footer>
+
+<script>
+    /* Skripts, kas aptur youtube video atskaņošanu treilera modālā */
+    $("#trailerModal").on('hidden.bs.modal', function (e) {
+        console.log('wat');
+        $("#trailerModal iframe").attr("src", $("#trailerModal iframe").attr("src"));
+    });
+</script>
