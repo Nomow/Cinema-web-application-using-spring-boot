@@ -55,8 +55,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body text-center">
-                <iframe id="ytplayer" type="text/html" width="640" height="360" th:src="${movie.GetTrailerUrl()}" frameborder="0"></iframe>
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" id="ytplayer" type="text/html" th:src="${movie.GetTrailerUrl()}" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
