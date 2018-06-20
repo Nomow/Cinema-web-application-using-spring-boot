@@ -30,7 +30,7 @@ public class SessionController {
             mav.setViewName("session");
             SessionProcessing sessionProcessing = new SessionProcessing(sessionRepo.get());
             // returnx m x n array of bool seats 0 not taken 1 taken and other methods
-            mav.getModelMap().addAttribute("session", sessionProcessing);
+            mav.getModelMap().addAttribute("sesija", sessionProcessing);
             String pageTitle = sessionRepo.get().GetCinema() + " - " + sessionRepo.get().GetMovie().GetName();
             mav.getModelMap().addAttribute("pageTitle", pageTitle);
         }

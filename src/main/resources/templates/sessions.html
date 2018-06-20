@@ -18,7 +18,7 @@
             </div>
 
             <div class="float-sm-right">
-                <a class="mr-3" th:href="${movie.GetImdbUrl()}">
+                <a class="mr-3" th:href="${movie.GetImdbUrl()}" target="_blank">
                     <span class="amber-text">
                         <i class="fab fa-imdb"></i>
                         <strong>IMDb page </strong>
@@ -37,13 +37,41 @@
             <p th:text="${movie.GetDescription()}"></p>
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h2>Upcoming sessions:</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 my-1" th:each="Session, iterStat : ${sessions}">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="price my-3">
+                        <strong>Price: </strong>
+                        <span th:text="${#numbers.formatDecimal(Session.GetPrice(), 0, 'DEFAULT', 2, 'DEFAULT')}"></span>$
+                    </div>
+
+                    <div class="type my-3">
+                        <strong>Type: </strong>
+                        <span>2D</span>
+                    </div>
+
+                    <div class="time my-3">
+                        <strong>Time: </strong>
+                        <span th:text="${Session.GetTime()}"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <a class="btn btn-primary" th:href="@{'/session/' + ${Session.GetId()}}">Purchase</a>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
 </div>
 
-
-
-<p th:text="'Hello, ' + ${movie} + '!'" />
-
-<p th:text="'Hello, ' + ${sessions} + '!'" />
 
 <!-- Modal -->
 <div class="modal fade" id="trailerModal" tabindex="-1" role="dialog" aria-labelledby="trailerModalLabel" aria-hidden="true">
@@ -55,10 +83,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body text-center">
-                <iframe id="ytplayer" type="text/html" width="640" height="360" th:src="${movie.GetTrailerUrl()}" frameborder="0"></iframe>
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" id="ytplayer" type="text/html" th:src="${movie.GetTrailerUrl()}" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <footer th:replace="includes/footer :: footer"></footer>
+
+<script>
+    /* Skripts, kas aptur youtube video atskaņošanu treilera modālā */
+    $("#trailerModal").on('hidden.bs.modal', function (e) {
+        console.log('wat');
+        $("#trailerModal iframe").attr("src", $("#trailerModal iframe").attr("src"));
+    });
+</script>
