@@ -1,20 +1,23 @@
 package me.kursaDarbs.app.controller;
 
-import java.util.*;
-
-import me.kursaDarbs.app.custom.CinemaMovieSessions;
-import me.kursaDarbs.app.custom.SeatPurchaseProcessing;
-import me.kursaDarbs.app.custom.SessionProcessing;
+import me.kursaDarbs.app.custom.*;
 import me.kursaDarbs.app.model.BoughtSeats;
 import me.kursaDarbs.app.model.Session;
 import me.kursaDarbs.app.repository.BoughtSeatsRepository;
 import me.kursaDarbs.app.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -62,8 +65,7 @@ public class SessionController {
     }
 
     @Autowired
-    BoughtSeatsRepository boughtSeatsRepository;
-
+    BoughtSeatsRepository boughtSeatsRepository;;
     @RequestMapping(value = "/buySeats", method = RequestMethod.POST)
     public String testRequest(@RequestParam String firstname, @RequestParam String lastname,
                               @RequestParam String email, @RequestParam String paymentSystem,
@@ -94,7 +96,28 @@ public class SessionController {
                 attributes.addFlashAttribute("succcess", "Tickets bought.");
                 List<List<Integer>> rowCol = processor.ind2Sub(seatArray, sessionRepo.get().GetHall().GetRows());
                 List<String> orderNumbers =  processor.GenerateOrderNumber(sessionId, rowCol);
-                
+                Email emailService = new Email();
+                for(int i = 0; i < orderNumbers.size(); ++i) {
+                    // gets data to put in pdf
+                    String cinemaName = sessionRepo.get().GetCinema().GetName();
+                    String city = sessionRepo.get().GetCinema().GetCity().GetName();
+                    String address = sessionRepo.get().GetCinema().GetAddress();
+                    String movie = sessionRepo.get().GetMovie().GetName();
+                    Integer row = rowCol.get(i).get(0);
+                    Integer col = rowCol.get(i).get(1);
+                    String orderNumber = orderNumbers.get(i);
+                    double price = sessionRepo.get().GetPrice();
+                    Date date = sessionRepo.get().GetTime();
+                    PdfProcessing pdf = new PdfProcessing(cinemaName, city, address, movie, date,
+                                                          row + 1, col + 1, orderNumber, price);
+
+                    // sends to email
+                    String title = cinemaName + " - " + movie + " - " + orderNumber;
+                    String content = "Thank you for purchasing ticket. \nYour order number: " + orderNumber +
+                                     ".\n Below is pdf ticket file";
+                    emailService.Send(email, title, content, pdf);
+
+                }
             }
         } else {
             attributes.addFlashAttribute("failed", "Something went wrong.");
