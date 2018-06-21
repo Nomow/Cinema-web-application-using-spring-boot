@@ -1,0 +1,159 @@
+<head th:replace="includes/head :: head"></head>
+
+<!--Main Navigation-->
+<header th:replace="includes/navigation :: navbar"></header>
+
+
+
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col">
+            <h1 class="display-3">Admin panel</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-1">
+            <div class="row">
+                <div class="col">
+                    <h2>Cinemas</h2>
+                    <!--Table-->
+                    <table class="table">
+
+                        <!--Table head-->
+                        <thead class="mdb-color darken-3">
+                            <tr class="text-white">
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th>Halls</th>
+                                <th>Sessions</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+
+                        <!--Table body-->
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Kino Rio</td>
+                                <td>Pils iela 28, Ventspils</td>
+                                <td>+37122480248</td>
+                                <td>
+                                    <a href="#">3</a>
+                                </td>
+                                <td>
+                                    <a href="#">15</a>
+                                </td>
+                                <td>57.396656</td>
+                                <td>21.564559</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--Table body-->
+
+                    </table>
+                    <!--Table-->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 offset-md-1">
+            <div class="row">
+                <div class="col">
+                    <h2>Users</h2>
+                    <!--Table-->
+                    <table class="table">
+
+                        <!--Table head-->
+                        <thead class="mdb-color darken-3">
+                            <tr class="text-white">
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Username</th>
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+
+                        <!--Table body-->
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Raitis-Ralfs</td>
+                                <td>Vecmanis</td>
+                                <td>raichshlv</td>
+                                <td>Admin</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--Table body-->
+
+                    </table>
+                    <!--Table-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                    <h2>Movies</h2>
+
+                    <!--Table-->
+                    <table class="table">
+
+                        <!--Table head-->
+                        <thead class="mdb-color darken-3">
+                            <tr class="text-white">
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Runtime</th>
+                                <th>Year</th>
+                                <th>Director</th>
+                                <th>IMDB Link</th>
+                                <th>Youtube Trailer</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+
+                        <!--Table body-->
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>15</td>
+                                <td>Pulp Fiction</td>
+                                <td>01:34:00</td>
+                                <td>1994</td>
+                                <td>Quentin Tarantino</td>
+                                <td>link here</td>
+                                <td>link here</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--Table body-->
+
+                    </table>
+                    <!--Table-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="includes/footer :: footer"></footer>

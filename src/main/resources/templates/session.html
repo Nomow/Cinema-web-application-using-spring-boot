@@ -13,7 +13,7 @@
                             <li class="rinda" th:each="i : ${#numbers.sequence(sesija.GetHall().GetRows(), 1, -1)}">
                                 <ol class="seats" type="A">
                                     <li class="seat" th:each="j : ${#numbers.sequence(1, sesija.GetHall().GetCols())}" th:title="${i} + '. rinda ' + ${j} + '. sēdvieta'">
-                                        <input type="checkbox" class="seatCheckBox" form="purchaseForm" th:disabled="${sesija.GetSeats()[i - 1][j - 1]}" th:id="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" onchange="checkBoxToggle(this)"/>
+                                        <input type="checkbox" name="seats[]" th:value="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" class="seatCheckBox" form="purchaseForm" th:disabled="${sesija.GetSeats()[i - 1][j - 1]}" th:id="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" onchange="checkBoxToggle(this)"/>
                                         <label th:for="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)"></label>
                                     </li>
                                 </ol>
