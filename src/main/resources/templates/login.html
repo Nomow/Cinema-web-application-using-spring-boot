@@ -3,48 +3,40 @@
 <header th:replace="includes/navigation :: navbar"></header>
 
 
-
-<div class="row">
-    <div class="col-md-12 col-md-offset-3">
-        <h1>Login page</h1>
-        <form th:action="@{/login}" method="post">
-            <div th:if="${param.error}">
-                <div class="alert alert-danger">
-                    Invalid username or password.
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="username">Username</label>:
-                <input type="text"
-                       id="username"
-                       name="username"
-                       class="form-control"
-                       autofocus="autofocus"
-                       placeholder="Username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>:
-                <input type="password"
-                       id="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Password">
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit"
-                               name="login-submit"
-                               id="login-submit"
-                               class="form-control btn btn-info"
-                               value="Log In">
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <!-- Material form login -->
+            <form th:action="@{/login}" method="post">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        Invalid username or password.
                     </div>
                 </div>
-            </div>
-        </form>
+                <p class="h4 text-center mb-4">Sign in</p>
+
+                <!-- Material input email -->
+                <div class="md-form">
+                    <i class="fa fa-envelope prefix grey-text"></i>
+                    <input type="text" id="loginFormUsername" name="username" class="form-control">
+                    <label for="loginFormUsername">Username</label>
+                </div>
+
+                <!-- Material input password -->
+                <div class="md-form">
+                    <i class="fa fa-lock prefix grey-text"></i>
+                    <input type="password" id="loginFormPassword" name="password" class="form-control">
+                    <label for="loginFormPassword">Your password</label>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-default" type="submit">Login</button>
+                </div>
+            </form>
+            <!-- Material form login -->
+        </div>
     </div>
 </div>
-
 
 
 <footer th:replace="includes/footer :: footer"></footer>
