@@ -7,14 +7,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-
                 <div class="col-sm-8">
                     <div class="container px-5">
                         <ol class="hall">
                             <li class="rinda" th:each="i : ${#numbers.sequence(sesija.GetHall().GetRows(), 1, -1)}">
                                 <ol class="seats" type="A">
                                     <li class="seat" th:each="j : ${#numbers.sequence(1, sesija.GetHall().GetCols())}" th:title="${i} + '. rinda ' + ${j} + '. sēdvieta'">
-                                        <input type="checkbox" class="seatCheckBox" th:id="${i} + '' + ${j}" onchange="checkBoxToggle(this)"/>
+                                        <input type="checkbox" th:disabled="${sesija.GetSeats()[i - 1][j - 1]}" class="seatCheckBox" th:id="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" onchange="checkBoxToggle(this)"/>
                                         <label th:for="${i} + '' + ${j}"></label>
                                     </li>
                                 </ol>
