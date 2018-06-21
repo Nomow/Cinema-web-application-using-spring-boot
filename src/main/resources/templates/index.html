@@ -107,7 +107,7 @@
       <h2>User Has Role Admin</h2>
     </div>
   </div>
-  <div class="row" sec:authorize="hasAuthority('ADMIN')">
+  <div class="row" sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">
     <div class="col-md-10 col-md-offset-2">
       <h2>User Has Authority Admin</h2>
     </div>

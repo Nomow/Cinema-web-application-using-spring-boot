@@ -11,4 +11,8 @@ public class AuthenticationController {
     public String Login() {
         return "login";
     }
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String Logout() {
+        return "redirect:/";
+    }
 }

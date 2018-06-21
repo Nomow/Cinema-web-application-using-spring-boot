@@ -59,6 +59,7 @@
         $.post("/cinemas", {}, function (data, status) {
             if (status == "success") {
                 console.log(status);
+                console.log(data);
                 var cinemaData = GetClosestCinemas(data, position);
                 console.log(cinemaData);
 
@@ -70,9 +71,6 @@
                     containers.eq(i).find(".cinema-city").text(cinemaData[i].city);
                     containers.eq(i).find(".cinema-image").attr("src","/img/cinema/"+ cinemaData[i].name + ".jpg");
                     containers.eq(i).find(".cinema-btn").attr("href", "/cinema/" + cinemaData[i].id);
-
-
-
                 }
             } else {
                 console.log("error");
