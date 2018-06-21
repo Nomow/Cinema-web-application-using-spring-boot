@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class SeatPurchaseValidator {
-    public SeatPurchaseValidator() {}
+public class SeatPurchaseProcessing {
+    public SeatPurchaseProcessing() {}
 
     public Boolean HaveOnlyLetters(String data) {
         return data.chars().allMatch(Character::isLetter);
@@ -63,5 +63,13 @@ public class SeatPurchaseValidator {
         if (email == null)
             return false;
         return pat.matcher(email).matches();
+    }
+
+    public List<String> GenerateOrderNumber(Integer sessionId, List<List<Integer>> seats) {
+        List<String> orderNumber = new ArrayList<>();
+        for (int i = 0; i < seats.size(); ++i) {
+            orderNumber.add(sessionId + "-" + seats.get(i).get(0) + "-" + seats.get(i).get(1));
+        }
+        return orderNumber;
     }
 }

@@ -1,10 +1,9 @@
 package me.kursaDarbs.app.controller;
 
-import java.io.IOException;
 import java.util.*;
 
 import me.kursaDarbs.app.custom.CinemaMovieSessions;
-import me.kursaDarbs.app.custom.SeatPurchaseValidator;
+import me.kursaDarbs.app.custom.SeatPurchaseProcessing;
 import me.kursaDarbs.app.custom.SessionProcessing;
 import me.kursaDarbs.app.model.BoughtSeats;
 import me.kursaDarbs.app.model.Session;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -36,7 +33,7 @@ public class SessionController {
             SessionProcessing sessionProcessing = new SessionProcessing(sessionRepo.get());
             // returnx m x n array of bool seats 0 not taken 1 taken and other methods
             mav.getModelMap().addAttribute("sesija", sessionProcessing);
-            String pageTitle = sessionRepo.get().GetCinema() + " - " + sessionRepo.get().GetMovie().GetName();
+            String pageTitle = sessionRepo.get().GetCinema().GetName() + " - " + sessionRepo.get().GetMovie().GetName();
             mav.getModelMap().addAttribute("pageTitle", pageTitle);
         }
         return mav;
@@ -82,18 +79,25 @@ public class SessionController {
         System.out.println("seatArray: "+ seatArray);
         System.out.println("sessionId: "+ sessionId);
         List<BoughtSeats> boughtSeats = boughtSeatsRepository.findBySessionId(sessionId);
-        Boolean validSeats = true;
-        SeatPurchaseValidator validator = new SeatPurchaseValidator();
-        if(!validator.HaveOnlyLetters(firstname)) {
-            attributes.addFlashAttribute("failed", "First name is not valid.");
-        } else if(!validator.HaveOnlyLetters(lastname)) {
-            attributes.addFlashAttribute("failed", "Last name is not valid.");
-        } else if(!validator.IsValidEmail(email)) {
-            attributes.addFlashAttribute("failed", "Email is not valid.");
-        } else if(!validator.seatsAreValid(seatArray, boughtSeats)) {
-            attributes.addFlashAttribute("failed", "Sorry, someone bought some seats before you.");
+        Optional<Session> sessionRepo = sessionRepository.findById(sessionId);
+        if (sessionRepo.isPresent()) {
+            SeatPurchaseProcessing processor = new SeatPurchaseProcessing();
+            if (!processor.HaveOnlyLetters(firstname)) {
+                attributes.addFlashAttribute("failed", "First name is not valid.");
+            } else if (!processor.HaveOnlyLetters(lastname)) {
+                attributes.addFlashAttribute("failed", "Last name is not valid.");
+            } else if (!processor.IsValidEmail(email)) {
+                attributes.addFlashAttribute("failed", "Email is not valid.");
+            } else if (!processor.seatsAreValid(seatArray, boughtSeats)) {
+                attributes.addFlashAttribute("failed", "Sorry, someone bought some seats before you.");
+            } else {
+                attributes.addFlashAttribute("succcess", "Tickets bought.");
+                List<List<Integer>> rowCol = processor.ind2Sub(seatArray, sessionRepo.get().GetHall().GetRows());
+                List<String> orderNumbers =  processor.GenerateOrderNumber(sessionId, rowCol);
+                
+            }
         } else {
-            attributes.addFlashAttribute("succcess", "Tickets bought.");
+            attributes.addFlashAttribute("failed", "Something went wrong.");
         }
         return "redirect:session/"+ sessionId;
 
