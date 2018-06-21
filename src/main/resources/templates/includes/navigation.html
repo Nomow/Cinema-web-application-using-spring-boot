@@ -18,8 +18,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/cinemas">Cinemas</a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="/login" class="nav-link">Login</a>
+                    <div sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">
+                        <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();"> Logout </a>
+                        <form id="logout-form" th:action="@{/logout}" method="post">
+                        </form>
+                    </div>
+                    <div sec:authorize="!hasAuthority('ADMIN') and !hasAuthority('USER')">
+                        <a href="/login"  class="nav-link" >Login</a>
+                    </div>
+
 
                 </li>
                 <li class="nav-item">
