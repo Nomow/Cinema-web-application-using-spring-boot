@@ -7,14 +7,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-
                 <div class="col-sm-8">
                     <div class="container px-5">
                         <ol class="hall">
                             <li class="rinda" th:each="i : ${#numbers.sequence(sesija.GetHall().GetRows(), 1, -1)}">
                                 <ol class="seats" type="A">
                                     <li class="seat" th:each="j : ${#numbers.sequence(1, sesija.GetHall().GetCols())}" th:title="${i} + '. rinda ' + ${j} + '. sēdvieta'">
-                                        <input type="checkbox" th:id="${i} + '' + ${j}" />
+                                        <input type="checkbox" th:disabled="${sesija.GetSeats()[i - 1][j - 1]}" class="seatCheckBox" th:id="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" onchange="checkBoxToggle(this)"/>
                                         <label th:for="${i} + '' + ${j}"></label>
                                     </li>
                                 </ol>
@@ -27,7 +26,43 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <h2>Shopping cart</h2>
+                    <form>
+                        <h2>Your tickets</h2>
+                        <h4>Total price: <strong id="totalPrice">0.00$</strong></h4>
+
+                        <!-- Material input text -->
+                        <div class="md-form">
+                            <i class="fa fa-user prefix grey-text"></i>
+                            <input type="text" id="firstNameForm" class="form-control">
+                            <label for="firstNameForm">First name</label>
+                        </div>
+
+                        <!-- Material input text -->
+                        <div class="md-form">
+                            <i class="fa fa-user prefix grey-text"></i>
+                            <input type="text" id="lastNameForm" class="form-control">
+                            <label for="lastNameForm">Last name</label>
+                        </div>
+
+                        <!-- Material input email -->
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix grey-text"></i>
+                            <input type="email" id="emailForm" class="form-control">
+                            <label for="emailForm">Your email</label>
+                        </div>
+
+                        <!-- Material input email -->
+                        <div class="md-form">
+                            <i class="fa fa-exclamation-triangle prefix grey-text"></i>
+                            <input type="email" id="emailConfirmForm" class="form-control">
+                            <label for="emailConfirmForm">Confirm your email</label>
+                        </div>
+
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary" type="submit">Purchase</button>
+                        </div>
+                    </form>
                 </div>
 
             </div>
@@ -38,3 +73,16 @@
 </div>
 
 <footer th:replace="includes/footer :: footer"></footer>
+<script>
+    var price = 0;
+    function checkBoxToggle(element){
+        if(element.checked){
+            price += [[${sesija.GetPrice()}]];
+            console.log('Adding price!');
+        }else {
+            console.log('Subtracting price!');
+            price -= [[${sesija.GetPrice()}]];
+        }
+        $("#totalPrice").text(Number(price).toFixed(2) + "$");
+    }
+</script>
