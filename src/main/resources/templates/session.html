@@ -14,7 +14,7 @@
                                 <ol class="seats" type="A">
                                     <li class="seat" th:each="j : ${#numbers.sequence(1, sesija.GetHall().GetCols())}" th:title="${i} + '. rinda ' + ${j} + '. sēdvieta'">
                                         <input type="checkbox" th:disabled="${sesija.GetSeats()[i - 1][j - 1]}" class="seatCheckBox" th:id="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)" onchange="checkBoxToggle(this)"/>
-                                        <label th:for="${i} + '' + ${j}"></label>
+                                        <label th:for="(${i} - 1) * ${sesija.GetHall().GetCols()} + (${j} - 1)"></label>
                                     </li>
                                 </ol>
                             </li>
