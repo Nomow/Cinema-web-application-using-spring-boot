@@ -33,9 +33,12 @@ public class BoughtSeats {
     @Column(name="order_number")
     private String orderNumber;
 
-    @Column(name="phone_number")
-    private String phoneNumber;
-            ;
+    @Column(name="name")
+    private String name;
+
+    @Column(name="surname")
+    private String surname
+            ;         ;
     public BoughtSeats(){}
 
     public Integer GetId() {
@@ -66,7 +69,13 @@ public class BoughtSeats {
         return orderNumber;
     }
 
-    public String GetPhoneNumber() {
-        return phoneNumber;
+    public String GetName() {
+        return name;
     }
+
+    public String GetSurname() {
+        return surname;
+    }
+
+
 }

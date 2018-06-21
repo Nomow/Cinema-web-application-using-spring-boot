@@ -13,7 +13,7 @@ public class SessionProcessing {
     private Movie movie;
     private Date time;
     private double price;
-
+    private Integer sessionId;
 
     public SessionProcessing(Session session) {
         seats = new ArrayList<List<Boolean>>();
@@ -23,6 +23,7 @@ public class SessionProcessing {
         movie = session.GetMovie();
         time = session.GetTime();
         price = session.GetPrice();
+        sessionId = session.GetId();
     }
 
     private void FillSeats(Session session) {
@@ -72,6 +73,9 @@ public class SessionProcessing {
         return price;
     }
 
+    public Integer GetSessionId() {
+        return sessionId;
+    }
 
 
 

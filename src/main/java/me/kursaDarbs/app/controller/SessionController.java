@@ -1,9 +1,6 @@
 package me.kursaDarbs.app.controller;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import me.kursaDarbs.app.custom.CinemaMovieSessions;
 import me.kursaDarbs.app.custom.SessionProcessing;
@@ -59,5 +56,33 @@ public class SessionController {
         return mav;
     }
 
+
+    @RequestMapping(value = "/buySeats", method = RequestMethod.POST)
+    public void testRequest(@RequestParam String firstname, @RequestParam String lastname,
+                            @RequestParam String email, @RequestParam String paymentSystem,
+                            @RequestParam List<Integer> seatArray, @RequestParam Integer sessionId) {
+
+        System.out.println("firstname: "+firstname);
+        System.out.println("lastname: "+lastname);
+        System.out.println("email: "+email);
+        System.out.println("paymentSystem: "+paymentSystem);
+        System.out.println("seatArray: "+ seatArray);
+        System.out.println("seatArray: "+ seatArray);
+        System.out.println("sessionId: "+ sessionId);
+
+        //By using array position you can determine each row
+        //DC1 values
+//        String dc1_numServer = numservers[0];
+//        String dc1_ipaddres= ipaddress[0];
+//        String dc1_hostname= hostname[0];
+//        //DC2 values
+//        String dc2_numServer = numservers[1];
+//        String dc2_ipaddres= ipaddress[1];
+//        String dc2_hostname= hostname[1];
+//        //DC3 values
+//        String dc3_numServer = numservers[2];
+//        String dc3_ipaddres= ipaddress[2];
+//        String dc3_hostname= hostname[2];
+    }
 }
 
