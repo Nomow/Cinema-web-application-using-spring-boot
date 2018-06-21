@@ -44,38 +44,50 @@ public class BoughtSeats {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
 
     public Session GetSession() {
         return session;
     }
+    public void SetSession(Session session) { this.session = session;}
 
     public PaymentSystem GetPaymentSystem() {
         return paymentSystem;
     }
+    public void SetPaymentSystem(PaymentSystem paymentSystem) { this.paymentSystem = paymentSystem;}
+
 
     public Integer GetRow() {
         return row;
     }
+    public void SetRow(Integer row) { this.row = row; }
 
     public Integer GetCol() {
         return col;
     }
+    public void SetCol(Integer col) { this.col = col; }
 
     public String GetEmail() {
         return email;
     }
+    public void SetEmail(String email) { this.email = email; }
+
 
     public String GetOrderNumber() {
         return orderNumber;
     }
+    public void SetOrderNumber(String orderNumber) { this.orderNumber = orderNumber; }
+
 
     public String GetName() {
         return name;
     }
+    public void SetName(String name) { this.name = name; }
 
     public String GetSurname() {
         return surname;
     }
+    public void SetSurname(String surname) { this.surname = surname; }
 
 
 }
