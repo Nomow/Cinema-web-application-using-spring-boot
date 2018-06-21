@@ -48,7 +48,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/font/**",
-                "/scss/**").antMatchers(HttpMethod.POST, "/cinemas");;
+                "/scss/**").antMatchers(HttpMethod.POST, "/cinemas", "/buySeats");;
     }
   /*  @Autowired
     private AccessDeniedHandler accessDeniedHandler;

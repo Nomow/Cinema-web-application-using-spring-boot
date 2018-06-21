@@ -1,18 +1,26 @@
 package me.kursaDarbs.app.controller;
 
+import java.io.IOException;
 import java.util.*;
 
 import me.kursaDarbs.app.custom.CinemaMovieSessions;
+import me.kursaDarbs.app.custom.SeatPurchaseValidator;
 import me.kursaDarbs.app.custom.SessionProcessing;
+import me.kursaDarbs.app.model.BoughtSeats;
 import me.kursaDarbs.app.model.Session;
+import me.kursaDarbs.app.repository.BoughtSeatsRepository;
 import me.kursaDarbs.app.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletResponse;
 
 
-@RestController
+@Controller
 public class SessionController {
 
     @Autowired
@@ -56,11 +64,15 @@ public class SessionController {
         return mav;
     }
 
+    @Autowired
+    BoughtSeatsRepository boughtSeatsRepository;
 
     @RequestMapping(value = "/buySeats", method = RequestMethod.POST)
-    public void testRequest(@RequestParam String firstname, @RequestParam String lastname,
-                            @RequestParam String email, @RequestParam String paymentSystem,
-                            @RequestParam List<Integer> seatArray, @RequestParam Integer sessionId) {
+    public String testRequest(@RequestParam String firstname, @RequestParam String lastname,
+                              @RequestParam String email, @RequestParam String paymentSystem,
+                              @RequestParam List<Integer> seatArray, @RequestParam Integer sessionId,
+                                RedirectAttributes attributes)  {
+
 
         System.out.println("firstname: "+firstname);
         System.out.println("lastname: "+lastname);
@@ -69,20 +81,22 @@ public class SessionController {
         System.out.println("seatArray: "+ seatArray);
         System.out.println("seatArray: "+ seatArray);
         System.out.println("sessionId: "+ sessionId);
+        List<BoughtSeats> boughtSeats = boughtSeatsRepository.findBySessionId(sessionId);
+        Boolean validSeats = true;
+        SeatPurchaseValidator validator = new SeatPurchaseValidator();
+        if(!validator.HaveOnlyLetters(firstname)) {
+            attributes.addFlashAttribute("failed", "First name is not valid.");
+        } else if(!validator.HaveOnlyLetters(lastname)) {
+            attributes.addFlashAttribute("failed", "Last name is not valid.");
+        } else if(!validator.IsValidEmail(email)) {
+            attributes.addFlashAttribute("failed", "Email is not valid.");
+        } else if(!validator.seatsAreValid(seatArray, boughtSeats)) {
+            attributes.addFlashAttribute("failed", "Sorry, someone bought some seats before you.");
+        } else {
+            attributes.addFlashAttribute("succcess", "Tickets bought.");
+        }
+        return "redirect:session/"+ sessionId;
 
-        //By using array position you can determine each row
-        //DC1 values
-//        String dc1_numServer = numservers[0];
-//        String dc1_ipaddres= ipaddress[0];
-//        String dc1_hostname= hostname[0];
-//        //DC2 values
-//        String dc2_numServer = numservers[1];
-//        String dc2_ipaddres= ipaddress[1];
-//        String dc2_hostname= hostname[1];
-//        //DC3 values
-//        String dc3_numServer = numservers[2];
-//        String dc3_ipaddres= ipaddress[2];
-//        String dc3_hostname= hostname[2];
     }
 }
 
