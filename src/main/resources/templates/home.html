@@ -9,9 +9,26 @@
     <script>
         window.onload = geolocateUser;
     </script>
+
     <!-- Start your project here-->
     <div class="container mt-5 pt-5">
         <div class="row mb-5">
+
+            <div sec:authorize="isAuthenticated()">
+                This content is only shown to authenticated users.
+            </div>
+            <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="col-md-10 col-md-offset-2">
+                    <h2>User Has Role Admin</h2>
+                </div>
+            </div>
+            <div class="row" sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">
+                <div class="col-md-10 col-md-offset-2">
+                    <h2>User Has Authority Admin</h2>
+                </div>
+            </div>
+
+
             <div class="col text-center">
                 <h1 class="display-3">Movie theaters nearby</h1>
                 <h4>Below are the closest movie theaters to your location.</h4>

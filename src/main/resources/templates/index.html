@@ -99,10 +99,19 @@
     </script>
   </head>
   <body>
-    <h1>Basic example</h1>
-    <div id="map"></div>
-    <p><b>Address</b>: <span id="address"></span></p>
-    <p id="error"></p>
+  <div sec:authorize="isAuthenticated()">
+    This content is only shown to authenticated users.
+  </div>
+  <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+    <div class="col-md-10 col-md-offset-2">
+      <h2>User Has Role Admin</h2>
+    </div>
+  </div>
+  <div class="row" sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">
+    <div class="col-md-10 col-md-offset-2">
+      <h2>User Has Authority Admin</h2>
+    </div>
+  </div>
 
   </body>
 </html>
