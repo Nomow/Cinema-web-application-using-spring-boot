@@ -39,7 +39,15 @@ public class Movie {
     private List<Genres> genres;
 
     public Movie(){}
-
+    public Movie(String name, String description, Date time, String director, String trailerUrl, String imdbUrl, List<Genres> genres) {
+      this.name = name;
+      this.description = description;
+      this.time = time;
+      this.director = director;
+      this.trailerUrl = trailerUrl;
+      this.imdbUrl = imdbUrl;
+      this.genres = genres;
+    }
     public Integer GetId() {
         return id;
     }

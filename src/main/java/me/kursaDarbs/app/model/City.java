@@ -16,6 +16,9 @@ public class City {
 
 
     public City(){}
+      public City(String name){
+        this.name = name;
+      }
 
     public Integer GetId() {
         return id;

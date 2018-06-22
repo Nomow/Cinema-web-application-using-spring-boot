@@ -43,6 +43,15 @@ public class Cinema {
 
 
     public Cinema(){}
+    public Cinema(String name, City city, String address, String phoneNumber, String email, double latitude, double longitude) {
+      this.name = name;
+      this.city = city;
+      this.address = address;
+      this.phoneNumber = phoneNumber;
+      this.email = email;
+      this.latitude = latitude;
+      this.longitude = longitude;
+    }
 
     public Integer GetId() {
         return id;

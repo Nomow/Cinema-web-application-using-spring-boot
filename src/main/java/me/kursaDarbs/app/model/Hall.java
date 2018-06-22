@@ -25,6 +25,11 @@ public class Hall {
 
 
     public Hall(){}
+      public Hall(Cinema cinema, int rows, int cols){
+        this.cinema = cinema;
+        this.rows = rows;
+        this.cols = cols;
+      }
 
     public Integer GetId() {
         return id;

@@ -17,6 +17,10 @@ public class PaymentSystem {
     private String description;
 
     public PaymentSystem(){}
+    public PaymentSystem(String name, String description){
+      this.name = name;
+      this.description = description;
+    }
 
     public Integer GetId() {
         return id;

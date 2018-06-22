@@ -41,7 +41,13 @@ public class Session {
 
 
     public Session(){}
-
+    public Session(Cinema cinema, Movie movie, Hall hall, Date time, double price) {
+      this.cinema = cinema;
+      this.movie = movie;
+      this.hall = hall;
+      this.time = time;
+      this.price = price;
+    }
     public Integer GetId() {
         return id;
     }

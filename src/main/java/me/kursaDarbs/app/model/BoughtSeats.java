@@ -22,10 +22,10 @@ public class BoughtSeats {
     private PaymentSystem paymentSystem;
 
     @Column(name="row")
-    private int row;
+    private Integer row;
 
     @Column(name="col")
-    private int col;
+    private Integer col;
 
     @Column(name="email")
     private String email;
@@ -40,6 +40,18 @@ public class BoughtSeats {
     private String surname
             ;         ;
     public BoughtSeats(){}
+
+    public BoughtSeats(Session session, PaymentSystem paymentSystem, Integer row, Integer col,
+                       String email, String orderNumber, String name, String surname){
+        this.session = session;
+        this.paymentSystem = paymentSystem;
+        this.row = row;
+        this.col = col;
+        this.email = email;
+        this.orderNumber = orderNumber;
+        this.name = name;
+        this.surname = surname;
+    }
 
     public Integer GetId() {
         return id;
