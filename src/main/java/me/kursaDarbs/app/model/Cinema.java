@@ -47,36 +47,46 @@ public class Cinema {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
 
     public String GetName() {
         return name;
     }
+    public void SetName(String name) { this.name = name; }
 
     public City GetCity() {
         return city;
     }
+    public void SetCity(City city) { this.city = city; }
 
     public String GetAddress() {
         return address;
     }
+    public void SetAddress(String address) { this.address = address; }
 
     public String GetPhoneNumber() {
         return phoneNumber;
     }
+    public void SetPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
     public String GetEmail() {
         return email;
     }
+    public void SetEmail(String email) { this.email = email; }
 
     public double GetLatttidue() {
         return latitude;
     }
+    public void SetLattitude(double latitude) { this.latitude = latitude; }
 
     public double GetLongitude() {
         return longitude;
     }
+    public void SetLongitude(double longitude) { this.longitude = longitude; }
 
     public List<Session> GetSessions() { return sessions;}
+    public void SetLongitude(List<Session> sessions) { this.sessions = sessions; }
+
 
     @Override
     public String toString() {

@@ -19,10 +19,12 @@ public class Genres {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
 
     public String GetName() {
         return name;
     }
+    public void SetName(String name) { this.name = name; }
 
     @Override
     public String toString() {

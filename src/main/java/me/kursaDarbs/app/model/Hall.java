@@ -29,18 +29,24 @@ public class Hall {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
+
 
     public Cinema GetCinema() {
         return cinema;
     }
+    public void SetCinema(Cinema cinema) { this.cinema = cinema; }
+
 
     public Integer GetRows() {
         return rows;
     }
+    public void SetRows(Integer row) { this.rows = rows; }
 
     public Integer GetCols() {
         return cols;
     }
+    public void SetCols(Integer col) { this.cols = cols; }
 
 
     @Override

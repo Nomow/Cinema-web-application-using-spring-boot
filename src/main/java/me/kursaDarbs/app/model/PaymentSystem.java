@@ -21,10 +21,16 @@ public class PaymentSystem {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
+
     public String GetName() {
         return name;
     }
+    public void SetName(String name) { this.name = name; }
+
     public String GetDescription() {
         return description;
     }
+    public void SetDescription(String description) { this.description = description; }
+
 }

@@ -45,27 +45,34 @@ public class Session {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
 
     public Cinema GetCinema() {
         return cinema;
     }
+    public void SetCinema(Cinema cinema) { this.cinema = cinema; }
 
     public Movie GetMovie() {
         return movie;
     }
+    public void SetMovie(Movie movie) { this.movie = movie; }
 
     public Hall GetHall() {
         return hall;
     }
+    public void SetHall(Hall hall) { this.hall = hall; }
 
     public List<BoughtSeats> GetBoughtSeats() {
         return boughtSeats;
     }
+    public void SetBoughtSeats(List<BoughtSeats> boughtSeats) { this.boughtSeats = boughtSeats; }
 
     public Date GetTime() { return time; }
+    public void SetTime(Date time) { this.time = time; }
 
     public double GetPrice() {
         return price;
     }
+    public void SetTime(double price) { this.price = price; }
 
 }

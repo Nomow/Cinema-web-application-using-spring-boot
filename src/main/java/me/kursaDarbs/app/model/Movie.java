@@ -43,35 +43,40 @@ public class Movie {
     public Integer GetId() {
         return id;
     }
+    public void SetId(Integer id) { this.id = id; }
 
     public String GetName() {
         return name;
     }
+    public void SetName(String name) { this.name = name; }
 
     public String GetDescription() { return description; }
+    public void SetDescription(String description) { this.description = description; }
 
     public Date GetTime() {
         return time;
     }
+    public void SetTime(Date time) { this.time = time; }
 
     public String GetDirector() {
         return director;
     }
+    public void SetDirector(String director) { this.director = director; }
 
     public String GetTrailerUrl() {
         return trailerUrl;
     }
+    public void SetTrailer(String trailerUrl) { this.trailerUrl = trailerUrl; }
 
     public String GetImdbUrl() {
         return imdbUrl;
     }
+    public void SetImdbUrl(String imdbUrl) { this.imdbUrl = imdbUrl; }
 
     public List<Genres> GetGenres() {
         return genres;
     }
-
-
-
+    public void SetImdbUrl(List<Genres> genres) { this.genres = genres; }
 
 
 
