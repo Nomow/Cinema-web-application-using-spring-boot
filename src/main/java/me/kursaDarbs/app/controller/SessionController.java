@@ -2,8 +2,10 @@ package me.kursaDarbs.app.controller;
 
 import me.kursaDarbs.app.custom.*;
 import me.kursaDarbs.app.model.BoughtSeats;
+import me.kursaDarbs.app.model.PaymentSystem;
 import me.kursaDarbs.app.model.Session;
 import me.kursaDarbs.app.repository.BoughtSeatsRepository;
+import me.kursaDarbs.app.repository.PaymentSystemRepository;
 import me.kursaDarbs.app.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,10 +67,13 @@ public class SessionController {
     }
 
     @Autowired
-    BoughtSeatsRepository boughtSeatsRepository;;
+    BoughtSeatsRepository boughtSeatsRepository;
+    @Autowired
+    PaymentSystemRepository paymentSystemRepository;
+
     @RequestMapping(value = "/buySeats", method = RequestMethod.POST)
     public String testRequest(@RequestParam String firstname, @RequestParam String lastname,
-                              @RequestParam String email, @RequestParam String paymentSystem,
+                              @RequestParam String email, @RequestParam Integer paymentSystem,
                               @RequestParam List<Integer> seatArray, @RequestParam Integer sessionId,
                                 RedirectAttributes attributes)  {
 
@@ -82,6 +87,7 @@ public class SessionController {
         System.out.println("sessionId: "+ sessionId);
         List<BoughtSeats> boughtSeats = boughtSeatsRepository.findBySessionId(sessionId);
         Optional<Session> sessionRepo = sessionRepository.findById(sessionId);
+        Optional<PaymentSystem> paymentSystemRepo = paymentSystemRepository.findById(paymentSystem);
         if (sessionRepo.isPresent()) {
             SeatPurchaseProcessing processor = new SeatPurchaseProcessing();
             if (!processor.HaveOnlyLetters(firstname)) {
@@ -117,8 +123,12 @@ public class SessionController {
                                      ".\n Below is pdf ticket file";
                     emailService.Send(email, title, content, pdf);
 
+                    BoughtSeats newBoughtSeats = new BoughtSeats(sessionRepo.get(), paymentSystemRepo.get(),
+                                                    row, col, email, orderNumber, firstname, lastname);
+                    boughtSeatsRepository.save(newBoughtSeats);
                 }
             }
+            boughtSeatsRepository.flush();
         } else {
             attributes.addFlashAttribute("failed", "Something went wrong.");
         }
