@@ -22,17 +22,16 @@
                 <li class="nav-item">
                     <div sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">
                         <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();"> Logout </a>
-                        <form id="logout-form" th:action="@{/logout}" method="post">
+                        <form id="logout-form" th:action="@{/logout}" method="post" style="display:none;">
                         </form>
                     </div>
                     <div sec:authorize="!hasAuthority('ADMIN') and !hasAuthority('USER')">
                         <a href="/login"  class="nav-link" >Login</a>
                     </div>
 
-
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Opinions</a>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a href="/admin" class="nav-link">Admin panel</a>
                 </li>
             </ul>
             <ul class="navbar-nav nav-flex-icons">

@@ -96,7 +96,7 @@ public class SessionController {
                 attributes.addFlashAttribute("failed", "Last name is not valid.");
             } else if (!processor.IsValidEmail(email)) {
                 attributes.addFlashAttribute("failed", "Email is not valid.");
-            } else if (!processor.seatsAreValid(seatArray, boughtSeats)) {
+            } else if (!processor.seatsAreValid(seatArray, boughtSeats, sessionRepo.get().GetHall().GetCols())) {
                 attributes.addFlashAttribute("failed", "Sorry, someone bought some seats before you.");
             } else {
                 attributes.addFlashAttribute("succcess", "Tickets bought.");

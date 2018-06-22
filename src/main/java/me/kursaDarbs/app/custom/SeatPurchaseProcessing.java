@@ -13,9 +13,9 @@ public class SeatPurchaseProcessing {
         return data.chars().allMatch(Character::isLetter);
     }
 
-    public Boolean seatsAreValid(List<Integer> seatsToPurchase, List<BoughtSeats> takenSeats) {
+    public Boolean seatsAreValid(List<Integer> seatsToPurchase, List<BoughtSeats> takenSeats, Integer cols) {
         if (!takenSeats.isEmpty()) {
-            int totalRows = takenSeats.get(0).GetRow();
+            int totalRows = cols;
             for (int i = 0; i < seatsToPurchase.size(); ++i) {
                 int seatToBuyRow = ind2subRow(seatsToPurchase.get(i), totalRows);
                 int seatToBuyCol = ind2subCol(seatsToPurchase.get(i), totalRows);
