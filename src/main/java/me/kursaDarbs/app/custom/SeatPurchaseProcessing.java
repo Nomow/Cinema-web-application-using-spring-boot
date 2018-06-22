@@ -45,11 +45,11 @@ public class SeatPurchaseProcessing {
     }
 
     public Integer ind2subRow(Integer mono, Integer rowCount) {
-        return  mono % rowCount;
+        return  mono / rowCount;
     }
 
     public Integer ind2subCol(Integer mono, Integer rowCount) {
-        return  mono / rowCount;
+        return  mono % rowCount;
     }
 
 

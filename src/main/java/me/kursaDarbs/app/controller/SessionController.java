@@ -100,7 +100,7 @@ public class SessionController {
                 attributes.addFlashAttribute("failed", "Sorry, someone bought some seats before you.");
             } else {
                 attributes.addFlashAttribute("succcess", "Tickets bought.");
-                List<List<Integer>> rowCol = processor.ind2Sub(seatArray, sessionRepo.get().GetHall().GetRows());
+                List<List<Integer>> rowCol = processor.ind2Sub(seatArray, sessionRepo.get().GetHall().GetCols());
                 List<String> orderNumbers =  processor.GenerateOrderNumber(sessionId, rowCol);
                 Email emailService = new Email();
                 for(int i = 0; i < orderNumbers.size(); ++i) {
