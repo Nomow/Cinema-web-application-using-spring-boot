@@ -2,19 +2,30 @@ package me.kursaDarbs.app.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
-    private Integer id;
-    private String username;
-    private String password;
-    private String passwordConfirm;
-    private Set<Role> roles;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String username;
+    private String password;
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    private Cinema cinema;
+
+
+
+
+
     public Integer getId() {
         return id;
     }
@@ -39,21 +50,32 @@ public class User {
         this.password = password;
     }
 
-    @Transient
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+
     public Set<Role> getRoles() {
         return roles;
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+    public String RolesToString() {
+        String rolesToString = "";
+        for(Role role : roles ) {
+            rolesToString = rolesToString + " " + role.getName();
+        }
+        return rolesToString;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    public Cinema GetCinema() {
+        return cinema;
+    }
+    public void SetCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 }

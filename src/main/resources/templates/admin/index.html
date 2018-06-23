@@ -37,19 +37,19 @@
 
                     <!--Table body-->
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Kino Rio</td>
-                            <td>Pils iela 28, Ventspils</td>
-                            <td>+37122480248</td>
+                        <tr th:each="cinema : ${cinemas}">
+                            <th scope="row" th:text="${cinema.GetId()}"></th>
+                            <td th:text="${cinema.GetName()}"></td>
+                            <td th:text="${cinema.GetAddress()}"></td>
+                            <td th:text="${cinema.GetPhoneNumber()}"></td>
                             <td>
-                                <a href="#">3</a>
+                                <a th:href="@{'/admin/halls/cinema/' + ${cinema.GetId()}}" th:text="${cinema.GetHalls().size()}"></a>
                             </td>
                             <td>
-                                <a href="#">15</a>
+                                <a th:href="@{'/admin/sessions/' + ${cinema.GetId()}}" th:text="${cinema.GetSessions().size()}"></a>
                             </td>
-                            <td>57.396656</td>
-                            <td>21.564559</td>
+                            <td th:text="${cinema.GetLatttidue()}">57.396656</td>
+                            <td th:text="${cinema.GetLongitude()}">21.564559</td>
                             <td align="left">
                                 <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
@@ -76,13 +76,10 @@
                     <thead class="mdb-color darken-3">
                         <tr class="text-white">
                             <th>#</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Runtime</th>
                             <th>Year</th>
                             <th>Director</th>
-                            <th>IMDB Link</th>
-                            <th>Youtube Trailer</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -90,20 +87,62 @@
 
                     <!--Table body-->
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>15</td>
-                            <td>Pulp Fiction</td>
-                            <td>01:34:00</td>
-                            <td>1994</td>
-                            <td>Quentin Tarantino</td>
-                            <td>link here</td>
-                            <td>link here</td>
+                        <tr th:each="movie : ${movies}">
+                            <th scope="row" th:text="${movie.GetId()}">1</th>
+                            <td movie th:text="${movie.GetName()}">Pulp Fiction</td>
+                            <td th:text="${movie.GetTime().getHours() + ':' + movie.GetTime().getMinutes()}">01:34:00</td>
+                            <td th:text="${movie.GetYear()}">1994</td>
+                            <td th:text="${movie.GetDirector()}">Quentin Tarantino</td>
                             <td align="left">
                                 <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
+                    </tbody>
+                    <!--Table body-->
+
+                </table>
+            </div>
+            <!--Table-->
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Users</h2>
+
+            <!--Table-->
+            <div class="table-responsive">
+                <table class="table">
+
+                    <!--Table head-->
+                    <thead class="mdb-color darken-3">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>roles</th>
+                        <th>Cinema</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <!--Table head-->
+
+                    <!--Table body-->
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <th scope="row" th:text="${user.getId()}">1</th>
+                        <th th:text="${user.getUsername()}">1</th>
+                        <td th:text="${user.RolesToString()}">1994</td>
+                        <td th:text="${user.GetCinema() != null} ? ${user.GetCinema().GetName()} : 'NULL'">1994</td>
+
+                        <td align="left">
+                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
                     </tbody>
                     <!--Table body-->
 

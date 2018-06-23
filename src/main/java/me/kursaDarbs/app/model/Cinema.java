@@ -38,6 +38,10 @@ public class Cinema {
     private double longitude;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "cinema")
+    private List<Hall> halls;
+
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "cinema")
     private List<Session> sessions;
 
 
@@ -96,6 +100,8 @@ public class Cinema {
     public List<Session> GetSessions() { return sessions;}
     public void SetLongitude(List<Session> sessions) { this.sessions = sessions; }
 
+    public List<Hall> GetHalls() { return halls;}
+    public void SetHalls(List<Hall> halls) { this.halls = halls; }
 
     @Override
     public String toString() {

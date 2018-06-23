@@ -33,21 +33,27 @@ public class Movie {
     @Column(name="imdb_url")
     private String imdbUrl;
 
+    @Column(name="year")
+    private Integer year;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "MovieGenres", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "genres_id", referencedColumnName = "id"))
     private List<Genres> genres;
 
     public Movie(){}
-    public Movie(String name, String description, Date time, String director, String trailerUrl, String imdbUrl, List<Genres> genres) {
+    public Movie(String name, String description, Integer year, Date time, String director, String trailerUrl, String imdbUrl, List<Genres> genres) {
       this.name = name;
       this.description = description;
+      this.year = year;
       this.time = time;
       this.director = director;
       this.trailerUrl = trailerUrl;
       this.imdbUrl = imdbUrl;
       this.genres = genres;
     }
+
+
     public Integer GetId() {
         return id;
     }
@@ -86,6 +92,9 @@ public class Movie {
     }
     public void SetImdbUrl(List<Genres> genres) { this.genres = genres; }
 
-
+    public Integer GetYear() {
+        return year;
+    }
+    public void SetYear(Integer year) { this.year = year; }
 
 }
