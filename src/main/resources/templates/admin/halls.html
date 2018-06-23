@@ -1,59 +1,56 @@
-<head th:replace="../includes/head :: head"></head>
+<head th:replace="includes/head :: head"></head>
 
 <!--Main Navigation-->
-<header th:replace="../includes/navigation :: navbar"></header>
+<header th:replace="includes/navigation :: navbar"></header>
 
 
 
 <div class="container mt-5 pt-5">
-    <div class="row">
-        <div class="col">
-            <h1 class="display-3">Admin panel</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 offset-md-1">
-            <div class="row">
-                <div class="col">
-                    <h2>Halls in cinema</h2>
-                </div>
 
-                <!--Table-->
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 th:text="${pageTitle}">Hall </h2>
+
+            <!--Table-->
+            <div class="table-responsive">
                 <table class="table">
 
                     <!--Table head-->
                     <thead class="mdb-color darken-3">
-                        <tr class="text-white">
-                            <th>#</th>
-                            <th>ID</th>
-                            <th>Rows</th>
-                            <th>Columns</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>rows</th>
+                        <th>cols</th>
+                        <th>total seats</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <!--Table head-->
 
                     <!--Table body-->
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>1</td>
-                            <td>15</td>
-                            <td>20</td>
-                            <td>
-                                <a href="#" class="btn btn-warning">Edit</a>
-                                <a href="#" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
+                    <tr th:each="hall : ${halls}">
+                        <th scope="row" th:text="${hall.GetId()}">1</th>
+                        <th th:text="${hall.GetRows()}">1</th>
+                        <th th:text="${hall.GetCols()}">1</th>
+                        <th th:text="${hall.GetCols()} * ${hall.GetRows()}">1</th>
+
+                        <td align="left">
+                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
                     </tbody>
                     <!--Table body-->
 
                 </table>
-                <!--Table-->
             </div>
+            <!--Table-->
         </div>
     </div>
 </div>
+</div>
 
 
-<footer th:replace="../includes/footer :: footer"></footer>
+<footer th:replace="includes/footer :: footer"></footer>

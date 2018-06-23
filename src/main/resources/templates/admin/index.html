@@ -46,13 +46,28 @@
                                 <a th:href="@{'/admin/halls/cinema/' + ${cinema.GetId()}}" th:text="${cinema.GetHalls().size()}"></a>
                             </td>
                             <td>
-                                <a th:href="@{'/admin/sessions/' + ${cinema.GetId()}}" th:text="${cinema.GetSessions().size()}"></a>
+                                <a th:href="@{'/admin/sessions/cinema/' + ${cinema.GetId()}}" th:text="${cinema.GetSessions().size()}"></a>
                             </td>
                             <td th:text="${cinema.GetLatttidue()}">57.396656</td>
                             <td th:text="${cinema.GetLongitude()}">21.564559</td>
                             <td align="left">
                                 <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" ></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td align="left">
+                                <a href="#" class="btn btn-sm btn-success">Add cinema</a>
                             </td>
                         </tr>
                     </tbody>
@@ -96,6 +111,17 @@
                             <td align="left">
                                 <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" ></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td align="left">
+                                <a href="#" class="btn btn-sm btn-success">Add movie</a>
                             </td>
                         </tr>
                     </tbody>

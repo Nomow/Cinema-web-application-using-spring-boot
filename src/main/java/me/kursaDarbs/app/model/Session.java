@@ -33,8 +33,6 @@ public class Session {
     @Column(name="price")
     private double price;
 
-
-
     @OneToMany(fetch=FetchType.LAZY,mappedBy = "session")
     private List<BoughtSeats> boughtSeats;
 

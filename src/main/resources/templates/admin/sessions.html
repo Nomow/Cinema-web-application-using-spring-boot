@@ -1,61 +1,112 @@
-<head th:replace="../includes/head :: head"></head>
+<head th:replace="includes/head :: head"></head>
 
 <!--Main Navigation-->
-<header th:replace="../includes/navigation :: navbar"></header>
+<header th:replace="includes/navigation :: navbar"></header>
 
 
 
 <div class="container mt-5 pt-5">
-    <div class="row">
-        <div class="col">
-            <h1 class="display-3">Admin panel</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 offset-md-1">
-            <div class="row">
-                <div class="col">
-                    <h2>Sessions in cinema</h2>
-                </div>
 
-                <!--Table-->
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 th:text="${pageTitle}">Users</h2>
+            <h3>Upcoming sessions</h3>
+
+            <!--Table-->
+            <div class="table-responsive">
                 <table class="table">
 
                     <!--Table head-->
                     <thead class="mdb-color darken-3">
-                        <tr class="text-white">
-                            <th>#</th>
-                            <th>ID</th>
-                            <th>Movie</th>
-                            <th>Hall</th>
-                            <th>Time</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Movie</th>
+                        <th>Hall</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                        <th>Total seats</th>
+                        <th>Bought seats</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <!--Table head-->
 
                     <!--Table body-->
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>1</td>
-                            <td>15</td>
-                            <td>20</td>
-                            <td>
-                                <a href="#" class="btn btn-warning">Edit</a>
-                                <a href="#" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
+                    <tr th:each="s : ${upcomingSessions}">
+                        <th scope="row" th:text="${s.GetId()}">1</th>
+                        <th th:text="${s.GetMovie().GetName()}">1</th>
+                        <th th:text="${s.GetHall().GetId()}">1</th>
+                        <th th:text="${s.GetTime()}">1</th>
+                        <th th:text="${s.GetPrice()}">1</th>
+                        <th th:text="${s.GetHall().GetRows()} * ${s.GetHall().GetCols()}">1</th>
+                        <th th:text="${s.GetBoughtSeats().size()}">1</th>
+                        <td align="left">
+                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
                     </tbody>
                     <!--Table body-->
-
                 </table>
-                <!--Table-->
             </div>
+            <!--Table-->
         </div>
     </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Ended sessions</h3>
+
+            <!--Table-->
+            <div class="table-responsive">
+                <table class="table">
+
+                    <!--Table head-->
+                    <thead class="mdb-color darken-3">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Movie</th>
+                        <th>Hall</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                        <th>Total seats</th>
+                        <th>Bought seats</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <!--Table head-->
+
+                    <!--Table body-->
+                    <tbody>
+                    <tr th:each="s : ${endedSessions}">
+                        <th scope="row" th:text="${s.GetId()}">1</th>
+                        <th th:text="${s.GetMovie().GetName()}">1</th>
+                        <th th:text="${s.GetHall().GetId()}">1</th>
+                        <th th:text="${s.GetTime()}">1</th>
+                        <th th:text="${s.GetPrice()}">1</th>
+                        <th th:text="${s.GetHall().GetRows()} * ${s.GetHall().GetCols()}">1</th>
+                        <th th:text="${s.GetBoughtSeats().size()}">1</th>
+                        <td align="left">
+                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <!--Table body-->
+                </table>
+            </div>
+            <!--Table-->
+        </div>
+    </div>
+
+
 </div>
 
 
-<footer th:replace="../includes/footer :: footer"></footer>
+
+
+<footer th:replace="includes/footer :: footer"></footer>
