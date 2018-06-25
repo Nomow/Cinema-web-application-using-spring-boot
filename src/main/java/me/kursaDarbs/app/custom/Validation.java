@@ -1,5 +1,7 @@
 package me.kursaDarbs.app.custom;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 public class Validation {
@@ -32,6 +34,22 @@ public class Validation {
         }
         return false;
     }
+
+    public boolean isValidURI(String uriStr) {
+        try {
+            URI uri = new URI(uriStr);
+            return true;
+        }
+        catch (URISyntaxException e) {
+            return false;
+        }
+    }
+
+    public boolean isValidURI(String uriStr, String name) {
+        return uriStr.toLowerCase().contains(name.toLowerCase());
+    }
+
+
 
 
 }

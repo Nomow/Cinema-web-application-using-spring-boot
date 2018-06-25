@@ -1,6 +1,7 @@
 package me.kursaDarbs.app.multiforms;
 
 import me.kursaDarbs.app.model.Genres;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -9,12 +10,22 @@ public class MovieForm {
     private Integer id;
     private String movieName;
     private String description;
-    private Date time;
+    private Integer hours;;
+    private Integer minutes;
     private Integer year;
     private String director;
     private String imdb;
     private String youtube;
-    private List<Genres> genres;
+    private List<Integer> genres;
+    private MultipartFile img;
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public void setImg(MultipartFile img) {
+        this.img = img;
+    }
 
     public Integer getId() {
         return id;
@@ -41,12 +52,22 @@ public class MovieForm {
         this.description = description;
     }
 
-    public Date getTime() {
-        return time;
+
+
+    public Integer getHours() {
+        return hours;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setHours(Integer hours) {
+        this.hours = hours;
+    }
+
+    public Integer getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(Integer minutes) {
+        this.minutes = minutes;
     }
 
     public Integer getYear() {
@@ -81,11 +102,11 @@ public class MovieForm {
         this.youtube = youtube;
     }
 
-    public List<Genres> getGenres() {
+    public List<Integer> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genres> genres) {
+    public void setGenres(List<Integer> genres) {
         this.genres = genres;
     }
 }

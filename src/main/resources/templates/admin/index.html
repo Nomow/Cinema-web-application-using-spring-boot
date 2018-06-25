@@ -109,7 +109,7 @@
                             <td th:text="${movie.GetYear()}">1994</td>
                             <td th:text="${movie.GetDirector()}">Quentin Tarantino</td>
                             <td align="left">
-                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                <a th:href="@{'/admin/movie/' + ${movie.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
@@ -121,7 +121,7 @@
                             <td></td>
                             <td></td>
                             <td align="left">
-                                <a href="#" class="btn btn-sm btn-success">Add movie</a>
+                                <a href="/admin/movie" class="btn btn-sm btn-success">Add movie</a>
                             </td>
                         </tr>
                     </tbody>

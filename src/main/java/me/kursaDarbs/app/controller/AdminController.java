@@ -4,6 +4,7 @@ package me.kursaDarbs.app.controller;
 import me.kursaDarbs.app.custom.Validation;
 import me.kursaDarbs.app.model.*;
 import me.kursaDarbs.app.multiforms.CinemaForm;
+import me.kursaDarbs.app.multiforms.MovieForm;
 import me.kursaDarbs.app.repository.*;
 import me.kursaDarbs.app.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -90,8 +92,10 @@ public class AdminController  {
 
     }
 
+
+
     /**
-        edits
+     CINEMA POST GET
      */
     @RequestMapping(value = "/admin/cinema/{id}", method = RequestMethod.GET)
     public ModelAndView EditCinema(@PathVariable("id") int id) {
@@ -121,6 +125,8 @@ public class AdminController  {
         }
         return mav;
     }
+
+
 
     @RequestMapping(value = "/admin/cinema", method = RequestMethod.GET)
     public ModelAndView AddCinema() {
@@ -221,6 +227,163 @@ public class AdminController  {
     }
 
 
+    /**
+     MOVIE  INPUT
+     */
+    @Autowired
+    GenresRepository genresRepository;
+
+    @RequestMapping(value = "/admin/movie", method = RequestMethod.GET)
+    public ModelAndView GetCinema() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("admin/movie");
+        mav.getModelMap().addAttribute("method", "/admin/movie/add");
+        mav.getModelMap().addAttribute("movieForm", new MovieForm());
+        mav.getModelMap().addAttribute("imgRequired", true);
+        mav.getModelMap().addAttribute("movieGenres", genresRepository.findAll());
+
+        String pageTitle = "Add movie";
+        mav.getModelMap().addAttribute("pageTitle", pageTitle);
+        return mav;
+    }
+    @RequestMapping(value = "/admin/movie/{id}", method = RequestMethod.GET)
+    public ModelAndView EditMovie(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        Optional<Movie> movieRepo = movieRepository.findById(id);
+        if(movieRepo.isPresent()) {
+            List<Integer> genreList = new ArrayList<>();
+            Movie movie = movieRepo.get();
+            for(int i = 0; i < movie.GetGenres().size(); ++i) {
+                genreList.add(movie.GetGenres().get(i).GetId());
+            }
+
+            mav.setViewName("admin/cinema");
+            MovieForm movieForm = new MovieForm();
+            movieForm.setMinutes(movie.GetTime().getMinutes());
+            movieForm.setDescription(movie.GetDescription());
+            movieForm.setDirector(movie.GetDirector());
+            movieForm.setGenres(genreList);
+            movieForm.setHours(movie.GetTime().getHours());
+            movieForm.setId(movie.GetId());
+            movieForm.setImdb(movie.GetImdbUrl());
+            movieForm.setMovieName(movie.GetName());
+            movieForm.setYear(movie.GetYear());
+            movieForm.setYoutube(movie.GetTrailerUrl());
+
+
+            mav.setViewName("admin/movie");
+            mav.getModelMap().addAttribute("method", "/admin/movie/update");
+            mav.getModelMap().addAttribute("movieForm", movieForm);
+            mav.getModelMap().addAttribute("imgRequired", false);
+            mav.getModelMap().addAttribute("movieGenres", genresRepository.findAll());
+
+            String pageTitle = movie.GetName() + " - edit";
+            mav.getModelMap().addAttribute("pageTitle", pageTitle);
+        }
+        return mav;
+    }
+
+
+
+ /*   @PostMapping("/admin/movie/update")
+    public String UpdateMovie(@Valid @ModelAttribute("movieForm") MovieForm movieForm, BindingResult bindingResult,
+                              RedirectAttributes attributes)  {
+
+        Optional<Cinema> cinemaRepo = cinemaRepository.findById(cinemaForm.getId());
+        Validation validation = new Validation();
+        if(cinemaRepo.isPresent()){
+            Cinema cinema = cinemaRepo.get();
+
+            if(!validation.IsValidEmail(cinemaForm.getEmail())) {
+                attributes.addFlashAttribute("failed", "Email is not valid.");
+            }  else if(!validation.IsValidPhoneNumber(cinemaForm.getPhoneNumber())) {
+                attributes.addFlashAttribute("failed", "Phone number is not valid.");
+            } else {
+                // name check
+                Boolean isValid = false;
+                if(cinemaForm.getcinemaName().equals(cinema.GetName())) {
+                    System.out.println("1111111");
+                    if(!cinemaForm.getImg().isEmpty()) {
+                        fileStorage.store(cinemaForm.getImg(), "cinema", cinema.GetName());
+                    }
+                    isValid = true;
+                } else if(cinemaRepository.findByName(cinemaForm.getcinemaName()) == null) {
+                    System.out.println("22222");
+                    // adds new file and deletes old one
+                    System.out.println("FORM : " + cinemaForm.getImg());
+                    if(!cinemaForm.getImg().isEmpty()) {
+                        fileStorage.store(cinemaForm.getImg(), "cinema", cinemaForm.getcinemaName());
+                        fileStorage.delete("cinema", cinema.GetName());
+
+                        // renames existing
+                    } else {
+                        System.out.println("333333");
+                        fileStorage.update("cinema", cinema.GetName(), cinemaForm.getcinemaName());
+                    }
+                    isValid = true;
+                } else {
+                    attributes.addFlashAttribute("failed", "Cinema name already exist.");
+                }
+
+                // assigns new values
+                if(isValid == true) {
+                    Optional<City> city = cityRepository.findById(cinemaForm.getCity());
+                    cinema.SetName(cinemaForm.getcinemaName());
+                    cinema.SetAddress(cinemaForm.getAddress());
+                    cinema.SetCity(city.get());
+                    cinema.SetEmail(cinemaForm.getEmail());
+                    cinema.SetLongitude(cinemaForm.getLongitude());
+                    cinema.SetLattitude(cinemaForm.getLatitude());
+                    cinema.SetPhoneNumber(cinemaForm.getPhoneNumber());
+                    cinemaRepository.saveAndFlush(cinema);
+                }
+            }
+        } else {
+            attributes.addFlashAttribute("failed", "Something went wrong.");
+        }
+        return "redirect:/admin/cinema/" + cinemaForm.getId();
+    }*/
+
+    @PostMapping("/admin/movie/add")
+    public String AddCinema(@Valid @ModelAttribute("movieForm") MovieForm movieForm, BindingResult bindingResult,
+                            RedirectAttributes attributes)  {
+        Validation validation = new Validation();
+        Movie tempMovie = movieRepository.findByName(movieForm.getMovieName());
+        if(movieForm.getGenres().isEmpty()) {
+            attributes.addFlashAttribute("failed", "Plese choose genres.");
+        } else if(tempMovie != null) {
+            attributes.addFlashAttribute("failed", "Movie name is not valid.");
+        } else if(!validation.isValidURI(movieForm.getImdb()) && !validation.isValidURI(movieForm.getImdb(), "imdb")) {
+            attributes.addFlashAttribute("failed", "Imdb url is not valid.");
+        } else if(!validation.isValidURI(movieForm.getYoutube()) && !validation.isValidURI(movieForm.getYoutube(), "youtube")) {
+            attributes.addFlashAttribute("failed", "Youtube url is not valid.");
+        } else if(!validation.HaveOnlyLetters(movieForm.getDirector())) {
+            attributes.addFlashAttribute("failed", "Director name is not valid.");
+        } else if(movieForm.getYear() < 1990 || movieForm.getYear() > 2020) {
+            attributes.addFlashAttribute("failed", "Year is not valid.");
+        } else if(movieForm.getHours() < 0 || movieForm.getHours() > 12) {
+            attributes.addFlashAttribute("failed", "Hours is not valid.");
+        } else if(movieForm.getMinutes() < 0 || movieForm.getMinutes() > 59) {
+            attributes.addFlashAttribute("failed", "Minutes is not valid.");
+        } else {
+            attributes.addFlashAttribute("success", "Movie added.");
+            List<Genres> genres = new ArrayList<>();
+
+            for(int i = 0; i < movieForm.getGenres().size(); ++i) {
+                Optional<Genres> temp = genresRepository.findById(movieForm.getGenres().get(i));
+                genres.add(temp.get());
+            }
+            Date time = new Date();
+            time.setHours(movieForm.getHours());
+            time.setMinutes(movieForm.getMinutes());
+            Movie movie = new Movie(movieForm.getMovieName(), movieForm.getDescription(), movieForm.getYear(), time,
+                    movieForm.getDirector(), movieForm.getYoutube(), movieForm.getImdb(), genres);
+            fileStorage.store(movieForm.getImg(), "movies", movieForm.getMovieName());
+
+            movieRepository.saveAndFlush(movie);
+        }
+        return "redirect:/admin/movie/";
+    }
 
 
     @RequestMapping(value = "/admin/session/{id}", method = RequestMethod.GET)

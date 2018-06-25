@@ -39,12 +39,17 @@
 
 
             <div class="md-form">
-                <label for="time">Movie length</label>
-                <input type="time" id="time" th:field="*{time}">
+                <label for="hour">Movie time hours</label>
+                <input type="number" id="hour" min="0" max="10" step="1" value="218" th:field="*{hours}" required />
             </div>
 
             <div class="md-form">
-                <label for="year">Movie description</label>
+                <label for="minutes">Movie time minutes</label>
+                <input type="number" id="minutes" min="0" max="60" step="1" value="218" th:field="*{minutes}" required />
+            </div>
+
+            <div class="md-form">
+                <label for="year">Movie year</label>
                 <input type="number" id="year" min="1920" max="2018" step="1" value="218" th:field="*{year}" required />
             </div>
 
@@ -64,15 +69,14 @@
                 <label for="youtube">Youtube url</label>
             </div>
 
+            <div class="md-form">
 
-            <select id="genres" th:field="*{genres}"  class="mdb-select colorful-select dropdown-primary" multiple>
-                <option value="1">USA</option>
-                <option value="2">Germany</option>
-                <option value="3">France</option>
-                <option value="4">Poland</option>
-                <option value="5">Japan</option>
-            </select>
-                <label for="genres">Genres</label>
+                <div th:each="genre : ${movieGenres}">
+                    <div th:each="g : ${movieForm.genres}">
+                    <input type="checkbox" th:checked="${g == genre.GetId()}" th:field="*{genres}"class th:value="${genre.GetId()}"  th:text="${genre.GetName()}" /><br />
+                    </div>
+                </div>
+
             </div>
 
 
@@ -80,9 +84,10 @@
                 <input type="file" th:field="*{img}" accept="image/jpeg" th:required="${imgRequired}" />
             </div>
 
-            <div class="mt-4">
-                <button class="btn btn-default" type="submit">Submit</button>
-            </div>
+
+    <div class="mt-4">
+        <button class="btn btn-default" type="submit">Submit</button>
+    </div>
 
 
         </form>
@@ -93,3 +98,4 @@
 
 
 <footer th:replace="includes/footer :: footer"></footer>
+
