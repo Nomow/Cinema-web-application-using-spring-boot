@@ -1,10 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+<head th:replace="includes/head :: head"></head>
+<header th:replace="includes/navigation :: navbar"></header>
+
+
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div th:if="${failed != null}" class="col-sm-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Failed!</strong> <span th:text="${failed}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div th:if="${succcess != null}" class="col-sm-12 alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Succcess!</strong> <span th:text="${succcess}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+        <div class="col-md-6 offset-md-3">
+            <!-- Material form login -->
+            <form th:action="@{${method}}" th:object="${cinemaForm}" enctype="multipart/form-data"  method="post">
+                <p class="h4 mb-4" th:text="${pageTitle}"></p>
+
+                <input type="hidden" th:field="*{id}"  class="form-control" required>
+
+                <div class="md-form">
+                    <input type="text" id="cinemaName" th:field="*{cinemaName}"  class="form-control" required>
+                    <label for="cinemaName">Cinema name</label>
+                </div>
+
+                <div class="md-form">
+                    <select th:field="*{city}" >
+                        <option th:each="city : ${cities}" th:value="${city.GetId()}"  th:text="${city.GetName()}"
+                                th:selected="
+                                ${ cinemaForm.city != null and cinemaForm.city == city.GetId()
+                                }"
+                        />
+                    </select>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="address" th:field="*{address}" class="form-control" required>
+                    <label for="address">Cinema address</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}"  class="form-control" required>
+                    <label for="phoneNumber">Cinema phone number</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="email" id="email" th:field="*{email}"  class="form-control" required>
+                    <label for="email">Cinema email</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="latitude" th:field="*{latitude}"  class="form-control" required>
+                    <label for="latitude">Cinema latitude</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="longitude" th:field="*{longitude}"  class="form-control" required>
+                    <label for="longitude">Cinema longitude</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="file" th:field="*{img}" accept="image/jpeg" th:required="${imgRequired}" />
+                </div>
+
+                <div class="mt-4">
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </div>
+
+
+            </form>
+            <!-- Material form login -->
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="includes/footer :: footer"></footer>

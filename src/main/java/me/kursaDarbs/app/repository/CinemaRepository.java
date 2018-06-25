@@ -10,6 +10,6 @@ import me.kursaDarbs.app.model.Cinema;
 
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Integer>{
-
+    public Cinema findByName(String name);
 }
 

@@ -78,13 +78,7 @@ public class SessionController {
                                 RedirectAttributes attributes)  {
 
 
-        System.out.println("firstname: "+firstname);
-        System.out.println("lastname: "+lastname);
-        System.out.println("email: "+email);
-        System.out.println("paymentSystem: "+paymentSystem);
-        System.out.println("seatArray: "+ seatArray);
-        System.out.println("seatArray: "+ seatArray);
-        System.out.println("sessionId: "+ sessionId);
+
         List<BoughtSeats> boughtSeats = boughtSeatsRepository.findBySessionId(sessionId);
         Optional<Session> sessionRepo = sessionRepository.findById(sessionId);
         Optional<PaymentSystem> paymentSystemRepo = paymentSystemRepository.findById(paymentSystem);

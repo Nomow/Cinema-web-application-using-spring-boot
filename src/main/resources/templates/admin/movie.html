@@ -1,0 +1,95 @@
+
+<head th:replace="includes/head :: head"></head>
+<header th:replace="includes/navigation :: navbar"></header>
+
+
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div th:if="${failed != null}" class="col-sm-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Failed!</strong> <span th:text="${failed}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div th:if="${succcess != null}" class="col-sm-12 alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Succcess!</strong> <span th:text="${succcess}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-6 offset-md-3">
+        <!-- Material form login -->
+        <form th:action="@{${method}}" th:object="${movieForm}" enctype="multipart/form-data"  method="post">
+            <p class="h4 mb-4" th:text="${pageTitle}"></p>
+
+            <input type="hidden" th:field="*{id}"  class="form-control" required>
+
+            <div class="md-form">
+                <input type="text" id="movieName" th:field="*{movieName}"  class="form-control" required>
+                <label for="movieName">Movie name</label>
+            </div>
+
+
+            <div class="md-form">
+                <label for="description">Movie description</label>
+                <textarea class="form-control rounded-0" id="description" th:field="*{description}" rows="3" required></textarea>
+            </div>
+
+
+            <div class="md-form">
+                <label for="time">Movie length</label>
+                <input type="time" id="time" th:field="*{time}">
+            </div>
+
+            <div class="md-form">
+                <label for="year">Movie description</label>
+                <input type="number" id="year" min="1920" max="2018" step="1" value="218" th:field="*{year}" required />
+            </div>
+
+            <div class="md-form">
+                <input type="text" id="director" th:field="*{director}"  class="form-control" required>
+                <label for="director">Director</label>
+            </div>
+
+
+            <div class="md-form">
+                <input type="url" id="imdb" th:field="*{imdb}"  class="form-control" required>
+                <label for="imdb">Imdb url</label>
+            </div>
+
+            <div class="md-form">
+                <input type="url" id="youtube" th:field="*{youtube}"  class="form-control" required>
+                <label for="youtube">Youtube url</label>
+            </div>
+
+
+            <select id="genres" th:field="*{genres}"  class="mdb-select colorful-select dropdown-primary" multiple>
+                <option value="1">USA</option>
+                <option value="2">Germany</option>
+                <option value="3">France</option>
+                <option value="4">Poland</option>
+                <option value="5">Japan</option>
+            </select>
+                <label for="genres">Genres</label>
+            </div>
+
+
+            <div class="md-form">
+                <input type="file" th:field="*{img}" accept="image/jpeg" th:required="${imgRequired}" />
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-default" type="submit">Submit</button>
+            </div>
+
+
+        </form>
+        <!-- Material form login -->
+    </div>
+</div>
+</div>
+
+
+<footer th:replace="includes/footer :: footer"></footer>

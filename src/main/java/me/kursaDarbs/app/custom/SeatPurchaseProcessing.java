@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class SeatPurchaseProcessing {
+public class SeatPurchaseProcessing extends Validation {
     public SeatPurchaseProcessing() {}
 
-    public Boolean HaveOnlyLetters(String data) {
-        return data.chars().allMatch(Character::isLetter);
-    }
 
     public Boolean seatsAreValid(List<Integer> seatsToPurchase, List<BoughtSeats> takenSeats, Integer cols) {
         if (!takenSeats.isEmpty()) {
@@ -53,17 +50,7 @@ public class SeatPurchaseProcessing {
     }
 
 
-    public Boolean IsValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
 
     public List<String> GenerateOrderNumber(Integer sessionId, List<List<Integer>> seats) {
         List<String> orderNumber = new ArrayList<>();

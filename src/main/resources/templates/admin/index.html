@@ -51,8 +51,8 @@
                             <td th:text="${cinema.GetLatttidue()}">57.396656</td>
                             <td th:text="${cinema.GetLongitude()}">21.564559</td>
                             <td align="left">
-                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <a th:href="@{'/admin/cinema/' + ${cinema.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
+                                <a th:href="@{'/admin/cinema/' + ${cinema.GetId()} + '/delete'}" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -67,7 +67,7 @@
                             <td></td>
                             <td></td>
                             <td align="left">
-                                <a href="#" class="btn btn-sm btn-success">Add cinema</a>
+                                <a href="/admin/cinema" class="btn btn-sm btn-success">Add cinema</a>
                             </td>
                         </tr>
                     </tbody>
