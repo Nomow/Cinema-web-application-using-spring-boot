@@ -5,8 +5,11 @@ import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 public class Validation {
-    public Boolean HaveOnlyLetters(String data) {
-        return data.chars().allMatch(Character::isLetter);
+    public Boolean HaveOnlyLetters(String data)
+    {
+        String s = data.replaceAll("\\s+","");
+        System.out.println(s);
+        return s.chars().allMatch(Character::isLetter);
     }
 
     public Boolean IsValidEmail(String email) {

@@ -103,14 +103,16 @@
                     <!--Table body-->
                     <tbody>
                         <tr th:each="movie : ${movies}">
-                            <th scope="row" th:text="${movie.GetId()}">1</th>
-                            <td movie th:text="${movie.GetName()}">Pulp Fiction</td>
-                            <td th:text="${movie.GetTime().getHours() + ':' + movie.GetTime().getMinutes()}">01:34:00</td>
-                            <td th:text="${movie.GetYear()}">1994</td>
-                            <td th:text="${movie.GetDirector()}">Quentin Tarantino</td>
+                            <th scope="row" th:text="${movie.key.GetId()}">1</th>
+                            <td movie th:text="${movie.key.GetName()}">Pulp Fiction</td>
+                            <td th:text="${movie.key.GetTime().getHours() + ':' + movie.key.GetTime().getMinutes()}">01:34:00</td>
+                            <td th:text="${movie.key.GetYear()}">1994</td>
+                            <td th:text="${movie.key.GetDirector()}">Quentin Tarantino</td>
                             <td align="left">
-                                <a th:href="@{'/admin/movie/' + ${movie.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
+                                <a th:href="@{'/admin/movie/' + ${movie.key.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
+                                <div th:remove="tag" th:if="${movie.value.size() == 0}">
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                </div>
                             </td>
                         </tr>
 

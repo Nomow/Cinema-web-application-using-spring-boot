@@ -71,10 +71,8 @@
 
             <div class="md-form">
 
-                <div th:each="genre : ${movieGenres}">
-                    <div th:each="g : ${movieForm.genres}">
-                    <input type="checkbox" th:checked="${g == genre.GetId()}" th:field="*{genres}"class th:value="${genre.GetId()}"  th:text="${genre.GetName()}" /><br />
-                    </div>
+                <div th:remove="tag" th:each="genre : ${movieGenres}">
+                    <input  type="checkbox"  th:field="*{genres}" th:value="${genre.key.GetId()}"  th:text="${genre.key.GetName()}" th:checked="${genre.value} ? 'checked' : ''"  /><br />
                 </div>
 
             </div>

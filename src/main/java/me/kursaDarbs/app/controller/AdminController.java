@@ -1,6 +1,7 @@
 package me.kursaDarbs.app.controller;
 
 
+import com.sun.javafx.collections.MappingChange;
 import me.kursaDarbs.app.custom.Validation;
 import me.kursaDarbs.app.model.*;
 import me.kursaDarbs.app.multiforms.CinemaForm;
@@ -16,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Controller
 public class AdminController  {
@@ -49,8 +48,19 @@ public class AdminController  {
         List<Movie> movies = movieRepository.findAll();
         List<User> users = userRepository.findAll();
         mav.setViewName("admin/index");
+        List<List<Session>> cinemaSessions =  new ArrayList<List<Session>>();
+        Date date = new Date();
+        for(int i = 0; i < movies.size(); ++i) {
+            List<Session> temp = sessionRepository.findByMovieIdAndTimeAfter(movies.get(i).GetId(), date);
+            cinemaSessions.add(temp);
+        }
+
+        Map<Movie, List<Session>> movieMap = new HashMap<>();
+        for(int i = 0; i < movies.size(); ++i) {
+            movieMap.put(movies.get(i), cinemaSessions.get(i));
+        }
         mav.getModelMap().addAttribute("cinemas", cinemas);
-        mav.getModelMap().addAttribute("movies", movies);
+        mav.getModelMap().addAttribute("movies", movieMap);
         mav.getModelMap().addAttribute("users", users);
         mav.getModelMap().addAttribute("pageTitle", "Admin panel");
 
@@ -236,14 +246,25 @@ public class AdminController  {
     @RequestMapping(value = "/admin/movie", method = RequestMethod.GET)
     public ModelAndView GetCinema() {
         ModelAndView mav = new ModelAndView();
+
+
+        List<Genres> genres =  genresRepository.findAll();
+        Map<Genres, Boolean> genreMap = new HashMap<>();
+
+
+        for(int i = 0; i < genres.size(); ++i) {
+            genreMap.put(genres.get(i), false);
+        }
+
+
         mav.setViewName("admin/movie");
         mav.getModelMap().addAttribute("method", "/admin/movie/add");
         mav.getModelMap().addAttribute("movieForm", new MovieForm());
         mav.getModelMap().addAttribute("imgRequired", true);
-        mav.getModelMap().addAttribute("movieGenres", genresRepository.findAll());
-
-        String pageTitle = "Add movie";
+        mav.getModelMap().addAttribute("movieGenres", genreMap);
+        String pageTitle =  "Movie add";
         mav.getModelMap().addAttribute("pageTitle", pageTitle);
+
         return mav;
     }
     @RequestMapping(value = "/admin/movie/{id}", method = RequestMethod.GET)
@@ -251,11 +272,26 @@ public class AdminController  {
         ModelAndView mav = new ModelAndView();
         Optional<Movie> movieRepo = movieRepository.findById(id);
         if(movieRepo.isPresent()) {
+            List<Genres> genres =  genresRepository.findAll();
+            Map<Genres, Boolean> genreMap = new HashMap<>();
+
             List<Integer> genreList = new ArrayList<>();
             Movie movie = movieRepo.get();
+
             for(int i = 0; i < movie.GetGenres().size(); ++i) {
                 genreList.add(movie.GetGenres().get(i).GetId());
             }
+            for(int i = 0; i < genres.size(); ++i) {
+                Boolean isChecked = false;
+                for(int j = 0; j < movie.GetGenres().size(); ++j) {
+                    if(genres.get(i).GetId() == movie.GetGenres().get(j).GetId()) {
+                        isChecked = true;
+                        break;
+                    }
+                }
+                genreMap.put(genres.get(i), isChecked);
+            }
+
 
             mav.setViewName("admin/cinema");
             MovieForm movieForm = new MovieForm();
@@ -275,7 +311,7 @@ public class AdminController  {
             mav.getModelMap().addAttribute("method", "/admin/movie/update");
             mav.getModelMap().addAttribute("movieForm", movieForm);
             mav.getModelMap().addAttribute("imgRequired", false);
-            mav.getModelMap().addAttribute("movieGenres", genresRepository.findAll());
+            mav.getModelMap().addAttribute("movieGenres", genreMap);
 
             String pageTitle = movie.GetName() + " - edit";
             mav.getModelMap().addAttribute("pageTitle", pageTitle);
@@ -285,40 +321,51 @@ public class AdminController  {
 
 
 
- /*   @PostMapping("/admin/movie/update")
+    @PostMapping("/admin/movie/update")
     public String UpdateMovie(@Valid @ModelAttribute("movieForm") MovieForm movieForm, BindingResult bindingResult,
                               RedirectAttributes attributes)  {
 
-        Optional<Cinema> cinemaRepo = cinemaRepository.findById(cinemaForm.getId());
+        Optional<Movie> movieRepo = movieRepository.findById(movieForm.getId());
         Validation validation = new Validation();
-        if(cinemaRepo.isPresent()){
-            Cinema cinema = cinemaRepo.get();
+        if(movieRepo.isPresent()){
+            Movie movie = movieRepo.get();
 
-            if(!validation.IsValidEmail(cinemaForm.getEmail())) {
-                attributes.addFlashAttribute("failed", "Email is not valid.");
-            }  else if(!validation.IsValidPhoneNumber(cinemaForm.getPhoneNumber())) {
-                attributes.addFlashAttribute("failed", "Phone number is not valid.");
+            if(movieForm.getGenres().isEmpty()) {
+                attributes.addFlashAttribute("failed", "Plese choose genres.");
+            } else if(!validation.isValidURI(movieForm.getImdb()) && !validation.isValidURI(movieForm.getImdb(), "imdb")) {
+                attributes.addFlashAttribute("failed", "Imdb url is not valid.");
+            } else if(!validation.isValidURI(movieForm.getYoutube()) && !validation.isValidURI(movieForm.getYoutube(), "youtube")) {
+                attributes.addFlashAttribute("failed", "Youtube url is not valid.");
+            } else if(!validation.HaveOnlyLetters(movieForm.getDirector())) {
+                attributes.addFlashAttribute("failed", "Director name is not valid.");
+            } else if(movieForm.getYear() < 1990 || movieForm.getYear() > 2020) {
+                attributes.addFlashAttribute("failed", "Year is not valid.");
+            } else if(movieForm.getHours() < 0 || movieForm.getHours() > 12) {
+                attributes.addFlashAttribute("failed", "Hours is not valid.");
+            } else if(movieForm.getMinutes() < 0 || movieForm.getMinutes() > 59) {
+                attributes.addFlashAttribute("failed", "Minutes is not valid.");
             } else {
+
                 // name check
                 Boolean isValid = false;
-                if(cinemaForm.getcinemaName().equals(cinema.GetName())) {
+                if(movieForm.getMovieName().equals(movie.GetName())) {
                     System.out.println("1111111");
-                    if(!cinemaForm.getImg().isEmpty()) {
-                        fileStorage.store(cinemaForm.getImg(), "cinema", cinema.GetName());
+                    if(!movieForm.getImg().isEmpty()) {
+                        fileStorage.store(movieForm.getImg(), "movies", movie.GetName());
                     }
                     isValid = true;
-                } else if(cinemaRepository.findByName(cinemaForm.getcinemaName()) == null) {
+                } else if(cinemaRepository.findByName(movieForm.getMovieName()) == null) {
                     System.out.println("22222");
                     // adds new file and deletes old one
-                    System.out.println("FORM : " + cinemaForm.getImg());
-                    if(!cinemaForm.getImg().isEmpty()) {
-                        fileStorage.store(cinemaForm.getImg(), "cinema", cinemaForm.getcinemaName());
-                        fileStorage.delete("cinema", cinema.GetName());
+                    System.out.println("FORM : " + movieForm.getImg());
+                    if(!movieForm.getImg().isEmpty()) {
+                        fileStorage.store(movieForm.getImg(), "movies", movieForm.getMovieName());
+                        fileStorage.delete("movies", movie.GetName());
 
                         // renames existing
                     } else {
                         System.out.println("333333");
-                        fileStorage.update("cinema", cinema.GetName(), cinemaForm.getcinemaName());
+                        fileStorage.update("cinema", movie.GetName(), movieForm.getMovieName());
                     }
                     isValid = true;
                 } else {
@@ -327,22 +374,28 @@ public class AdminController  {
 
                 // assigns new values
                 if(isValid == true) {
-                    Optional<City> city = cityRepository.findById(cinemaForm.getCity());
-                    cinema.SetName(cinemaForm.getcinemaName());
-                    cinema.SetAddress(cinemaForm.getAddress());
-                    cinema.SetCity(city.get());
-                    cinema.SetEmail(cinemaForm.getEmail());
-                    cinema.SetLongitude(cinemaForm.getLongitude());
-                    cinema.SetLattitude(cinemaForm.getLatitude());
-                    cinema.SetPhoneNumber(cinemaForm.getPhoneNumber());
-                    cinemaRepository.saveAndFlush(cinema);
+                    attributes.addFlashAttribute("success", "Movie added.");
+                    List<Genres> genres = new ArrayList<>();
+
+                    for(int i = 0; i < movieForm.getGenres().size(); ++i) {
+                        Optional<Genres> temp = genresRepository.findById(movieForm.getGenres().get(i));
+                        genres.add(temp.get());
+                    }
+                    Date time = new Date();
+                    time.setHours(movieForm.getHours());
+                    time.setMinutes(movieForm.getMinutes());
+                    movie = new Movie(movieForm.getMovieName(), movieForm.getDescription(), movieForm.getYear(), time,
+                            movieForm.getDirector(), movieForm.getYoutube(), movieForm.getImdb(), genres);
+                    movie.SetId(movieForm.getId());
+                    movieRepository.saveAndFlush(movie);
                 }
             }
         } else {
             attributes.addFlashAttribute("failed", "Something went wrong.");
         }
-        return "redirect:/admin/cinema/" + cinemaForm.getId();
-    }*/
+        return "redirect:/admin/movie/" + movieForm.getId();
+    }
+
 
     @PostMapping("/admin/movie/add")
     public String AddCinema(@Valid @ModelAttribute("movieForm") MovieForm movieForm, BindingResult bindingResult,
