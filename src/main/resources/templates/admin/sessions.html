@@ -43,8 +43,10 @@
                         <th th:text="${s.GetHall().GetRows()} * ${s.GetHall().GetCols()}">1</th>
                         <th th:text="${s.GetBoughtSeats().size()}">1</th>
                         <td align="left">
-                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            <div th:remove="tag" th:if="${s.GetBoughtSeats().size() == 0}">
+                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
                         </td>
                     </tr>
                     </tbody>

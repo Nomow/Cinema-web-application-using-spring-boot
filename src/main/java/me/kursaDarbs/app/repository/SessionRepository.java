@@ -22,4 +22,5 @@ public interface SessionRepository extends JpaRepository<Session, Integer>{
     public Optional<Session> findByIdAndTimeAfter(int id, Date date);
     public List<Session> findByCinemaIdAndMovieIdAndTimeAfter(int cinemaId, int movieId, Date date);
     public List<Session> findByMovieIdAndTimeAfter(int cinemaId, Date date);
+    public List<Session> findByHallIdAndTimeAfter(int hallId, Date date);
 }

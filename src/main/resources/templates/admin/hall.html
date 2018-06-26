@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<head th:replace="includes/head :: head"></head>
 
-</body>
-</html>
+<!--Main Navigation-->
+<header th:replace="includes/navigation :: navbar"></header>
+
+
+<div class="container mt-5 pt-5">
+
+    <div class="row">
+        <div th:if="${failed != null}" class="col-sm-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Failed!</strong> <span th:text="${failed}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div th:if="${succcess != null}" class="col-sm-12 alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Succcess!</strong> <span th:text="${succcess}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+
+            <form action ="/admin/hall/update" method="post">
+                <p class="h4 mb-4" th:text="${pageTitle}"></p>
+
+                <input type="hidden" name="cinemaId" th:value="${hall != null ? hall.GetCinema().GetId() : ''}"  class="form-control" required>
+                <input type="hidden" name="hallId" th:value="${hall != null ? hall.GetId() : ''}"  class="form-control" required>
+
+                <div class="md-form">
+                    <label for="rows">Hall rows</label>
+                    <input type="number" id="rows" min="1" max="50" step="1"  th:value="${hall != null ? hall.GetRows() : '1'}" name="rows" required />
+                </div>
+
+                <div class="md-form">
+                    <label for="cols">Hall columns</label>
+                    <input type="number" id="cols" min="1" max="30" step="1" th:value="${hall != null ? hall.GetCols() : '1'}" name="cols" required />
+                </div>
+
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-default" type="submit">Update</button>
+                </div>
+            </form>
+            <!-- Material form login -->
+        </div>
+    </div>
+</div>
+
+
+
+<footer th:replace="includes/footer :: footer"></footer>
+

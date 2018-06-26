@@ -18,14 +18,14 @@ public class Hall {
     private Cinema cinema;
 
     @Column(name="rows")
-    private int rows;
+    private Integer rows;
 
     @Column(name="cols")
-    private int cols;
+    private Integer cols;
 
 
     public Hall(){}
-      public Hall(Cinema cinema, int rows, int cols){
+      public Hall(Cinema cinema, Integer rows, Integer cols){
         this.cinema = cinema;
         this.rows = rows;
         this.cols = cols;
@@ -46,12 +46,12 @@ public class Hall {
     public Integer GetRows() {
         return rows;
     }
-    public void SetRows(Integer row) { this.rows = rows; }
+    public void SetRows(Integer rows) { this.rows = rows; }
 
     public Integer GetCols() {
         return cols;
     }
-    public void SetCols(Integer col) { this.cols = cols; }
+    public void SetCols(Integer cols) { this.cols = cols; }
 
 
     @Override

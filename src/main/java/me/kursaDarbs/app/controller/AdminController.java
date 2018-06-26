@@ -67,22 +67,6 @@ public class AdminController  {
         return mav;
     }
 
-    @RequestMapping(value = "/admin/halls/cinema/{id}", method = RequestMethod.GET)
-    public ModelAndView GetCinemaHalls(@PathVariable("id") int id) {
-        ModelAndView mav = new ModelAndView();
-        List<Hall> halls = hallRepository.findByCinemaId(id);
-        Optional<Cinema> cinema = cinemaRepository.findById(id);
-        if(cinema.get() != null) {
-            mav.setViewName("admin/halls");
-            mav.getModelMap().addAttribute("halls", halls);
-            String pageTitle = cinema.get().GetName() + " - halls";
-            mav.getModelMap().addAttribute("pageTitle", pageTitle);
-        }
-
-        return mav;
-
-    }
-
     @RequestMapping(value = "/admin/sessions/cinema/{id}", method = RequestMethod.GET)
     public ModelAndView GetAllCinemaSessions(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView();
@@ -110,28 +94,33 @@ public class AdminController  {
     @RequestMapping(value = "/admin/cinema/{id}", method = RequestMethod.GET)
     public ModelAndView EditCinema(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView();
+        Date date = new Date();
+        List<Session> sessions = sessionRepository.findByMovieIdAndTimeAfter(id, date);
+
         Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
         List<City> cities = cityRepository.findAll();
-        if(cinemaRepo.isPresent()) {
-            Cinema cinema = cinemaRepo.get();
-            mav.setViewName("admin/cinema");
-            CinemaForm cinemaForm = new CinemaForm();
-            cinemaForm.setId(cinema.GetId());
-            cinemaForm.setAddress(cinema.GetAddress());
-            cinemaForm.setcinemaName(cinema.GetName());
-            cinemaForm.setCity(cinema.GetCity().GetId());
-            cinemaForm.setEmail(cinema.GetEmail());
-            cinemaForm.setLatitude(cinema.GetLatttidue());
-            cinemaForm.setLongitude(cinema.GetLongitude());
-            cinemaForm.setPhoneNumber(cinema.GetPhoneNumber());
+        if(sessions.size() == 0) {
+            if (cinemaRepo.isPresent()) {
+                Cinema cinema = cinemaRepo.get();
+                mav.setViewName("admin/cinema");
+                CinemaForm cinemaForm = new CinemaForm();
+                cinemaForm.setId(cinema.GetId());
+                cinemaForm.setAddress(cinema.GetAddress());
+                cinemaForm.setcinemaName(cinema.GetName());
+                cinemaForm.setCity(cinema.GetCity().GetId());
+                cinemaForm.setEmail(cinema.GetEmail());
+                cinemaForm.setLatitude(cinema.GetLatttidue());
+                cinemaForm.setLongitude(cinema.GetLongitude());
+                cinemaForm.setPhoneNumber(cinema.GetPhoneNumber());
 
-            mav.getModelMap().addAttribute("cities", cities);
-            mav.getModelMap().addAttribute("method", "/admin/cinema/update");
-            mav.getModelMap().addAttribute("imgRequired", false);
-            mav.getModelMap().addAttribute("cinemaForm", cinemaForm);
+                mav.getModelMap().addAttribute("cities", cities);
+                mav.getModelMap().addAttribute("method", "/admin/cinema/update");
+                mav.getModelMap().addAttribute("imgRequired", false);
+                mav.getModelMap().addAttribute("cinemaForm", cinemaForm);
 
-            String pageTitle = cinema.GetName() + " - edit";
-            mav.getModelMap().addAttribute("pageTitle", pageTitle);
+                String pageTitle = cinema.GetName() + " - edit";
+                mav.getModelMap().addAttribute("pageTitle", pageTitle);
+            }
         }
         return mav;
     }
@@ -436,6 +425,83 @@ public class AdminController  {
             movieRepository.saveAndFlush(movie);
         }
         return "redirect:/admin/movie/";
+    }
+
+
+    /**
+        HALLS
+     */
+
+    @RequestMapping(value = "/admin/halls/cinema/{id}", method = RequestMethod.GET)
+    public ModelAndView GetCinemaHalls(@PathVariable("id") int id) {
+
+        ModelAndView mav = new ModelAndView();
+        List<Hall> halls = hallRepository.findByCinemaId(id);
+        Optional<Cinema> cinema = cinemaRepository.findById(id);
+        if(cinema.isPresent()) {
+            Map<Hall, List<Session>> hallMap = new HashMap<>();
+            Date date = new Date();
+            for(int i = 0; i < halls.size(); ++i) {
+                List<Session> sessions = sessionRepository.findByHallIdAndTimeAfter(halls.get(i).GetId(), date);
+                hallMap.put(halls.get(i), sessions);
+            }
+
+            mav.setViewName("admin/halls");
+            mav.getModelMap().addAttribute("halls", hallMap);
+            String pageTitle = cinema.get().GetName() + " - halls";
+            mav.getModelMap().addAttribute("pageTitle", pageTitle);
+        }
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/admin/hall/{id}", method = RequestMethod.GET)
+    public ModelAndView EditHall(@PathVariable("id") int id) {
+
+        ModelAndView mav = new ModelAndView();
+        Optional<Hall> hallRepo = hallRepository.findById(id);
+        Date date = new Date();
+        List<Session> sessions = sessionRepository.findByHallIdAndTimeAfter(id, date);
+        if(hallRepo.isPresent() && sessions.size() == 0) {
+            Hall hall = hallRepo.get();
+            mav.setViewName("admin/hall");
+            mav.getModelMap().addAttribute("hall", hall);
+            String pageTitle = hall.GetCinema().GetName() + " hall " + hall.GetId() + " - edit";
+            mav.getModelMap().addAttribute("pageTitle", pageTitle);
+        }
+
+        return mav;
+    }
+
+
+    @RequestMapping(value = "/admin/hall/update", method = RequestMethod.POST)
+    public String UpdateHalls(@RequestParam Integer rows, @RequestParam Integer cols, @RequestParam Integer hallId, RedirectAttributes attributes)  {
+
+        Optional<Hall> hallRepo = hallRepository.findById(hallId);
+        if(hallRepo.isPresent()) {
+            if(rows > 0 && rows <= 50) {
+                if(cols > 0 && cols <= 30) {
+                    attributes.addFlashAttribute("success", "Hall updated.");
+                    Hall hall = hallRepo.get();
+                    hall.SetRows(rows);
+                    hall.SetCols(cols);
+                    System.out.println(hall.GetCols() + " " + cols);
+                    System.out.println(hall.GetRows() + " " + rows);
+
+                    hallRepository.saveAndFlush(hall);
+                    System.out.print("SUCESSSSSS");
+                } else {
+                    attributes.addFlashAttribute("failed", "Cols range is 1 - 30.");
+                }
+            } else {
+                attributes.addFlashAttribute("failed", "Rows range is 1 - 50.");
+            }
+        } else {
+            attributes.addFlashAttribute("failed", "Something went wrong.");
+
+        }
+        return "redirect:/admin/hall/" + hallId;
+
     }
 
 
