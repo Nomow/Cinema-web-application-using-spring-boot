@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -517,7 +519,7 @@ public class AdminController  {
                 mav.getModelMap().addAttribute("movies", movies);
                 List<Hall> halls = hallRepository.findByCinemaId(session.GetCinema().GetId());
                 mav.getModelMap().addAttribute("halls", halls);
-                mav.getModelMap().addAttribute("currentDate", currentDate);
+
 
                 String pageTitle = session.GetCinema().GetName() + " session " + session.GetId() + " - edit";
                 mav.getModelMap().addAttribute("pageTitle", pageTitle);
