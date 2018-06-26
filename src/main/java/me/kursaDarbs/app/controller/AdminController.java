@@ -99,7 +99,6 @@ public class AdminController  {
 
         Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
         List<City> cities = cityRepository.findAll();
-        if(sessions.size() == 0) {
             if (cinemaRepo.isPresent()) {
                 Cinema cinema = cinemaRepo.get();
                 mav.setViewName("admin/cinema");
@@ -121,7 +120,6 @@ public class AdminController  {
                 String pageTitle = cinema.GetName() + " - edit";
                 mav.getModelMap().addAttribute("pageTitle", pageTitle);
             }
-        }
         return mav;
     }
 
@@ -489,7 +487,6 @@ public class AdminController  {
                     System.out.println(hall.GetRows() + " " + rows);
 
                     hallRepository.saveAndFlush(hall);
-                    System.out.print("SUCESSSSSS");
                 } else {
                     attributes.addFlashAttribute("failed", "Cols range is 1 - 30.");
                 }
@@ -506,8 +503,26 @@ public class AdminController  {
 
 
     @RequestMapping(value = "/admin/session/{id}", method = RequestMethod.GET)
-    public String GetAdminSession() {
-        return "admin/session";
+    public ModelAndView GetSession(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        Optional<Session> sessionRepo = sessionRepository.findById(id);
+        if(sessionRepo.isPresent()) {
+            Session session = sessionRepo.get();
+            if(session.GetBoughtSeats().size() == 0) {
+                Calendar cal = Calendar.getInstance();
+                Date currentDate = cal.getTime();
+                mav.setViewName("admin/session");
+                mav.getModelMap().addAttribute("sessions", session);
+                List<Movie> movies = movieRepository.findAll();
+                mav.getModelMap().addAttribute("movies", movies);
+                List<Hall> halls = hallRepository.findByCinemaId(session.GetCinema().GetId());
+                mav.getModelMap().addAttribute("halls", halls);
+                mav.getModelMap().addAttribute("currentDate", currentDate);
+
+                String pageTitle = session.GetCinema().GetName() + " session " + session.GetId() + " - edit";
+                mav.getModelMap().addAttribute("pageTitle", pageTitle);
+            }
+        }
+        return mav;
     }
-    // ===============================
 }
