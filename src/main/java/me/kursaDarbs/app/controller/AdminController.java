@@ -18,6 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -511,15 +514,17 @@ public class AdminController  {
         if(sessionRepo.isPresent()) {
             Session session = sessionRepo.get();
             if(session.GetBoughtSeats().size() == 0) {
-                Calendar cal = Calendar.getInstance();
-                Date currentDate = cal.getTime();
                 mav.setViewName("admin/session");
                 mav.getModelMap().addAttribute("sessions", session);
                 List<Movie> movies = movieRepository.findAll();
                 mav.getModelMap().addAttribute("movies", movies);
                 List<Hall> halls = hallRepository.findByCinemaId(session.GetCinema().GetId());
                 mav.getModelMap().addAttribute("halls", halls);
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
+                String reportDate = df.format(session.GetTime());
+
+                mav.getModelMap().addAttribute("sessionDate", reportDate);
 
                 String pageTitle = session.GetCinema().GetName() + " session " + session.GetId() + " - edit";
                 mav.getModelMap().addAttribute("pageTitle", pageTitle);
@@ -527,4 +532,83 @@ public class AdminController  {
         }
         return mav;
     }
+
+    @RequestMapping(value = "/admin/session/update", method = RequestMethod.POST)
+    public String updateSessions(@RequestParam Integer sessionId, @RequestParam Integer sessionMovie,
+                              @RequestParam Integer sessionHall,
+                              @RequestParam String sDate, @RequestParam Double price,
+                              RedirectAttributes attributes)  {
+
+        Optional<Session> sessionRepo = sessionRepository.findById(sessionId);
+        if(sessionRepo.isPresent()) {
+            System.out.println(sDate);
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            Calendar sessionDate = Calendar.getInstance();
+            Calendar currentDate = Calendar.getInstance();
+            try {
+                sessionDate.setTime(df.parse(sDate));
+            } catch (ParseException e) {
+                System.out.println("invalid date");
+                attributes.addFlashAttribute("failed", "Date format is not valid.");
+                return "redirect:/admin/session/" + sessionId;
+            }
+            if(sessionDate.before(currentDate)) {
+                attributes.addFlashAttribute("failed", "Session is before current date.");
+            } else {
+                if(price < 0 || price > 100) {
+                    attributes.addFlashAttribute("failed", "Price is not in range.");
+                } else {
+                    // date check
+                    Optional<Movie> movieRepo = movieRepository.findById(sessionMovie);
+                    if(movieRepo.isPresent()) {
+                        Movie movie = movieRepo.get();
+                        int hours = movie.GetTime().getHours();
+                        int minutes = movie.GetTime().getMinutes();
+                        Calendar endSessionTime = Calendar.getInstance();
+                        endSessionTime.setTime(sessionDate.getTime());
+                        endSessionTime.add(Calendar.HOUR, hours);
+                        endSessionTime.add(Calendar.MINUTE, minutes);
+
+                        Calendar startSessionTime = Calendar.getInstance();
+                        startSessionTime.setTime(sessionDate.getTime());
+                        startSessionTime.add(Calendar.HOUR, -2);
+
+                        List<Session> sessionsToCompare = sessionRepository.findByHallIdAndTimeGreaterThanEqualAndTimeLessThanEqual(sessionHall,startSessionTime.getTime(), endSessionTime.getTime());
+                        Boolean isValid = true;
+                        for(int i = 0; i < sessionsToCompare.size(); ++i) {
+                            if(sessionsToCompare.get(i).GetId() != sessionId) {
+                                isValid = false;
+                                break;
+                            }
+                        }
+
+
+                        if(isValid) {
+                            Optional<Hall> hallRepo = hallRepository.findById(sessionHall);
+                            if(hallRepo.isPresent()) {
+                                Session session = sessionRepo.get();
+                                session.SetTime(sessionDate.getTime());
+                                session.SetPrice(price);
+                                session.SetHall(hallRepo.get());
+                                session.SetMovie(movie);
+                                attributes.addFlashAttribute("succcess", "Updated session.");
+                                sessionRepository.saveAndFlush(session);
+
+                            } else {
+                                attributes.addFlashAttribute("failed", "Hall doesn't exist.");
+
+                            }
+
+                        } else {
+                            attributes.addFlashAttribute("failed", "Already exist session.");
+                        }
+                    }
+                }
+            }
+
+        }
+        return "redirect:/admin/session/" + sessionId;
+
+    }
+
 }

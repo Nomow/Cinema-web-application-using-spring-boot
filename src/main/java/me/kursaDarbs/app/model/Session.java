@@ -77,6 +77,6 @@ public class Session {
     public double GetPrice() {
         return price;
     }
-    public void SetTime(double price) { this.price = price; }
+    public void SetPrice(double price) { this.price = price; }
 
 }

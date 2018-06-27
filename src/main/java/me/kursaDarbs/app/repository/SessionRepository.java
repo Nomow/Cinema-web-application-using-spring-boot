@@ -23,4 +23,5 @@ public interface SessionRepository extends JpaRepository<Session, Integer>{
     public List<Session> findByCinemaIdAndMovieIdAndTimeAfter(int cinemaId, int movieId, Date date);
     public List<Session> findByMovieIdAndTimeAfter(int cinemaId, Date date);
     public List<Session> findByHallIdAndTimeAfter(int hallId, Date date);
+    public List<Session> findByHallIdAndTimeGreaterThanEqualAndTimeLessThanEqual(int hallId, Date startDate, Date endDate);
 }
