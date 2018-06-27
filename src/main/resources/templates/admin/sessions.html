@@ -45,7 +45,8 @@
                         <td align="left">
                             <div th:remove="tag" th:if="${s.GetBoughtSeats().size() == 0}">
                                 <a th:href="@{'/admin/session/' + ${s.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <a th:href="@{'/admin/sessions/cinema/' + ${s.GetCinema().GetId()}+ '/session/' + ${s.GetId()} + '/delete'}" class="btn btn-sm btn-danger">Delete</a>
+
                             </div>
                         </td>
                     </tr>

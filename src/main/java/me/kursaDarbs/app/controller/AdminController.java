@@ -611,4 +611,49 @@ public class AdminController  {
 
     }
 
+
+    /**
+     DELETE
+     */
+
+    @GetMapping("/admin/cinema/{id}/delete")
+    public String DeleteCinema(@PathVariable Integer id)  {
+        Optional<Cinema> cinemaRepo = cinemaRepository.findById(id);
+        if(cinemaRepo.isPresent()) {
+            fileStorage.delete("cinema", cinemaRepo.get().GetName());
+            cinemaRepository.delete(cinemaRepo.get());
+        }
+        return "redirect:/admin/";
+    }
+
+    @GetMapping("/admin/sessions/cinema/{cinemaId}/session/{sessionId}/delete")
+    public String DeleteSession(@PathVariable Integer cinemaId, @PathVariable Integer sessionId)  {
+        Optional<Session> sessionRepo = sessionRepository.findById(sessionId);
+        Optional<Cinema> cinemaRepo = cinemaRepository.findById(cinemaId);
+        if(sessionRepo.isPresent() && cinemaRepo.isPresent()) {
+            sessionRepository.delete(sessionRepo.get());
+        }
+        return "redirect:/admin/sessions/cinema/" + cinemaId;
+    }
+
+    @GetMapping("/admin/halls/cinema/{cinemaId}/hall/{hallId}/delete")
+    public String DeleteHall(@PathVariable Integer cinemaId, @PathVariable Integer hallId)  {
+        Optional<Hall> hallRepo = hallRepository.findById(hallId);
+        Optional<Cinema> cinemaRepo = cinemaRepository.findById(cinemaId);
+        if(hallRepo.isPresent() && cinemaRepo.isPresent()) {
+            hallRepository.delete(hallRepo.get());
+        }
+        return "redirect:/admin/halls/cinema/" + cinemaId;
+    }
+
+    @GetMapping("/admin/movie/{id}/delete")
+    public String DeleteMovie(@PathVariable Integer id)  {
+        Optional<Movie> movieRepo = movieRepository.findById(id);
+        if(movieRepo.isPresent()) {
+            fileStorage.delete("movies", movieRepo.get().GetName());
+            movieRepository.delete(movieRepo.get());
+        }
+        return "redirect:/admin/";
+    }
+
 }

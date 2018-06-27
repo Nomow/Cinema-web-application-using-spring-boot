@@ -39,7 +39,7 @@
                         <td align="left">
                             <div th:remove="tag" th:if="${hall.value.size() == 0}">
                                 <a th:href="@{'/admin/hall/' + ${hall.key.GetId()}}" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <a th:href="@{'/admin/halls/cinema/' + ${hall.key.GetCinema().GetId()}+ '/hall/' + ${hall.key.GetId()} + '/delete'}" class="btn btn-sm btn-danger">Delete</a>
                             </div>
 
                         </td>
